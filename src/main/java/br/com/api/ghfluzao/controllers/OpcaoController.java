@@ -14,18 +14,18 @@ import br.com.api.ghfluzao.services.opçao.CreateOpcaoRequest;
 import br.com.api.ghfluzao.services.opçao.IOpcaoService;
 
 @RestController
-@RequestMapping("/opcoes")
+@RequestMapping("/api-v1/opcoes")
 public class OpcaoController {
     
     @Autowired
     private IOpcaoService _opcaoService;
 
-    @GetMapping("/api")
+    @GetMapping("")
     public Iterable<Opcao> listar(){
         return _opcaoService.listar();
     }
 
-    @PostMapping("/api")
+    @PostMapping("")
     public ResponseEntity<String> criarOpcao(@RequestBody CreateOpcaoRequest request){
         _opcaoService.criarOpcao(request);
 

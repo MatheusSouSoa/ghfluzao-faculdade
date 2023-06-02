@@ -15,18 +15,18 @@ import br.com.api.ghfluzao.services.assunto.CreateAssuntoRequest;
 import br.com.api.ghfluzao.services.assunto.IAssuntoService;
 
 @RestController
-@RequestMapping("/assuntos")
+@RequestMapping("/api-v1/assuntos")
 public class AssuntoController {
     
     @Autowired
     private IAssuntoService _assuntoService;
 
-    @GetMapping("/api")
+    @GetMapping("")
     public Iterable<Assunto> listar(){
         return _assuntoService.listar();
     }
 
-    @PostMapping("/api")
+    @PostMapping("")
     public ResponseEntity<String> criarAssunto(@RequestBody CreateAssuntoRequest request){
         _assuntoService.criarAssunto(request);
 

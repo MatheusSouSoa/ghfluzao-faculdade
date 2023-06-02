@@ -14,13 +14,13 @@ import br.com.api.ghfluzao.services.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.services.prova.IProvaService;
 
 @RestController
-@RequestMapping("/provas")
+@RequestMapping("/api-v1/provas")
 public class ProvaController {
     
     @Autowired
     private IProvaService  _provaService;
 
-    @PostMapping("/api")
+    @PostMapping("")
     public ResponseEntity<String> criarProva(@RequestBody CreateProvaRequest request){
 
         _provaService.criarProva(request);
@@ -28,7 +28,7 @@ public class ProvaController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Prova criada com sucesso");
     }
 
-    @GetMapping("/api")
+    @GetMapping("")
     public Iterable<Prova> listar() {
         return _provaService.listar();
     }

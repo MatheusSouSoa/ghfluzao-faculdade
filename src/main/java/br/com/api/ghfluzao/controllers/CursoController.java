@@ -14,19 +14,19 @@ import br.com.api.ghfluzao.services.curso.CreateCursoRequest;
 import br.com.api.ghfluzao.services.curso.ICursoService;
 
 @RestController
-@RequestMapping("/cursos")
+@RequestMapping("/api-v1/cursos")
 public class CursoController {
 
     @Autowired
     private ICursoService _cursoService;
 
     
-    @GetMapping("/api")
+    @GetMapping("")
     public Iterable<Curso> listar(){
         return _cursoService.listar();
     }
 
-    @PostMapping("/api")
+    @PostMapping("")
     public ResponseEntity<String> criarCurso(@RequestBody CreateCursoRequest request){
         _cursoService.criarCurso(request);
 

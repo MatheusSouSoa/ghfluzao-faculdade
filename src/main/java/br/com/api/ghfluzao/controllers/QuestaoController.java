@@ -14,18 +14,18 @@ import br.com.api.ghfluzao.services.questao.CreateQuestaoRequest;
 import br.com.api.ghfluzao.services.questao.IQuestaoService;
 
 @RestController
-@RequestMapping("/questoes")
+@RequestMapping("/api-v1/questoes")
 public class QuestaoController {
     
     @Autowired
     private IQuestaoService _questaoService;
 
-    @GetMapping("/api")
+    @GetMapping("")
     public Iterable<Questao> Listar(){
         return _questaoService.listar();
     }
 
-    @PostMapping("/api")
+    @PostMapping("")
     public ResponseEntity<String> criarQuestao(@RequestBody CreateQuestaoRequest request){
         _questaoService.criarQuestao(request);
 

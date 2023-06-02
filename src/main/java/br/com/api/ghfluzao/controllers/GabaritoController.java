@@ -14,18 +14,18 @@ import br.com.api.ghfluzao.services.gabarito.CreateGabaritoRequest;
 import br.com.api.ghfluzao.services.gabarito.IGabaritoService;
 
 @RestController
-@RequestMapping("/gabaritos")
+@RequestMapping("/api-v1/gabaritos")
 public class GabaritoController {
     
     @Autowired
     private IGabaritoService _gabaritoService;
 
-    @GetMapping("/api")
+    @GetMapping("")
     public Iterable<Gabarito> listar(){
         return _gabaritoService.listar();
     }
 
-    @PostMapping("/api")
+    @PostMapping("")
     public ResponseEntity<String> criarGabarito(@RequestBody CreateGabaritoRequest request){
         _gabaritoService.criarGabarito(request);
 

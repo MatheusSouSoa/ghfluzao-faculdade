@@ -14,18 +14,18 @@ import br.com.api.ghfluzao.services.parte.CreateParteRequest;
 import br.com.api.ghfluzao.services.parte.IParteService;
 
 @RestController
-@RequestMapping("/partes")
+@RequestMapping("/api-v1/partes")
 public class ParteController {
     
     @Autowired
     private IParteService _parteService;
 
-    @GetMapping("/api")
+    @GetMapping("")
     public Iterable<Parte> listar(){
         return _parteService.listar();
     }
 
-    @PostMapping("/api")
+    @PostMapping("")
     public ResponseEntity<String> criarParte(@RequestBody CreateParteRequest request){
         _parteService.criarParte(request);
 
