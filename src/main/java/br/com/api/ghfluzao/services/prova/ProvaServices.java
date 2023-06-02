@@ -19,11 +19,12 @@ public class ProvaServices implements IProvaService {
     private ICursoService _cursoService;
 
     public ResponseEntity<?> criarProva(CreateProvaRequest request){
-        var prova = new Prova(request.ano);
-
-        if(_cursoService.validarCurso(request.cursoNome) == null || request.getCursoNome().equals(null)){
+        var curso = _cursoService.validarCurso(request.cursoNome);
+        
+        if(curso == null || request.getCursoNome().equals(null)){
             return new ResponseEntity<>("Curso invalido",HttpStatus.BAD_REQUEST);
         }
+        var prova = new Prova(request.getProva().getAno(),curso.getCodigo());
 
         if(prova.getAno().equals(null) || prova.getAno().equals(0)){
             return new ResponseEntity<>("Ano invalido",HttpStatus.BAD_REQUEST);

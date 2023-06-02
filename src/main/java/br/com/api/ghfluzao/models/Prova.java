@@ -23,9 +23,11 @@ public class Prova {
   private Integer ano;
   private Calendar data_criacao = Calendar.getInstance();
   private Calendar data_aplicacao;
+  private Long codigo_curso;
 
-  public Prova(int ano){
+  public Prova(int ano, Long codigo_curso){
     this.ano = ano;
+    this.codigo_curso = codigo_curso;
   }
 
   public Prova(){

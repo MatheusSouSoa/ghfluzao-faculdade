@@ -1,5 +1,6 @@
 package br.com.api.ghfluzao.services.prova;
 
+import br.com.api.ghfluzao.models.Prova;
 import lombok.Data;
 import lombok.ToString;
 
@@ -7,7 +8,8 @@ import lombok.ToString;
 @Data
 public class CreateProvaRequest {
     
-    public int ano;
     public String cursoNome;
+    public Prova prova;
+
 
 }
