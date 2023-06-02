@@ -1,6 +1,7 @@
 package br.com.api.ghfluzao.services.prova;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,17 @@ public class ProvaServices implements IProvaService {
             return new ResponseEntity<>("Ano invalido",HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.CREATED);
+    }
+
+    public Prova validarProva(Long codigoProva) {
+
+        var curso = _provaRepository.findById(codigoProva).get();
+
+        if (curso == null) {
+            throw new EmptyResultDataAccessException(0);
+        }
+
+        return curso;
     }
 
     public Iterable<Prova> listar() {

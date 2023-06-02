@@ -25,9 +25,11 @@ public class Questao {
   private int numero;
   @Column(length = 4000)
   private String figura;
+  private Long codigo_prova;
 
-  public Questao(String enunciado) {
+  public Questao(String enunciado, Long codigo_prova) {
     this.enunciado = enunciado;
+    this.codigo_prova = codigo_prova;
   }
 
   @OneToMany

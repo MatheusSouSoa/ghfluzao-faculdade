@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.repositories.QuestaoRepository;
 import br.com.api.ghfluzao.models.Questao;
+import br.com.api.ghfluzao.services.prova.IProvaService;
 
 @Service
 public class QuestaoService implements IQuestaoService {
@@ -15,8 +16,17 @@ public class QuestaoService implements IQuestaoService {
     @Autowired
     private QuestaoRepository _questaoRepository;
 
-    public ResponseEntity<?> criarQuestao(CreateQuestaoRequest request){
-        var questao = new Questao(request.enunciado);
+    @Autowired
+    private IProvaService _provaService;
+
+    public ResponseEntity<?> criarQuestao(CreateQuestaoRequest request){ 
+
+        var prova = _provaService.validarProva(request.getCodigoProva());
+        var questao = new Questao(request.getEnunciado(), prova.getCodigo());
+
+        if (prova == null || request.getCodigoProva().equals(null)) {
+            return new ResponseEntity<>("Curso invalido", HttpStatus.BAD_REQUEST);
+        }
 
         if(questao.getEnunciado().equals(null)){
             return new ResponseEntity<>("Questão invalida", HttpStatus.BAD_REQUEST);
