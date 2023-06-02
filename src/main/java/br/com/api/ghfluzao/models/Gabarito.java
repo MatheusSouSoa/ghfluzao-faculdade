@@ -7,8 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@NoArgsConstructor
 @Entity
 @Table(name = "gabaritos")
 @Data
@@ -18,4 +19,8 @@ public class Gabarito {
   private Long codigo;
   @Column(length = 4000)
   private String resposta;
+
+  public Gabarito(String resposta){
+    this.resposta = resposta;
+  }
 }

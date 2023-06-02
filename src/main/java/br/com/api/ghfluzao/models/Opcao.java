@@ -7,7 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "opcoes")
 @Data
@@ -15,8 +17,12 @@ public class Opcao {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long codigo;
-  private Character letra;
+  private Character letra;  
   @Column(length = 4000)
   private String texto;
   
+  public Opcao(Character letra, String texto){
+    this.letra = letra;
+    this.texto = texto;
+  }
 }

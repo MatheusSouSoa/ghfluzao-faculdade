@@ -1,4 +1,4 @@
-package br.com.api.ghfluzao.services.questoes;
+package br.com.api.ghfluzao.services.questao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,7 +13,7 @@ import br.com.api.ghfluzao.models.Questao;
 public class QuestaoService implements IQuestaoService {
     
     @Autowired
-    public QuestaoRepository _questaoRepository;
+    private QuestaoRepository _questaoRepository;
 
     public ResponseEntity<?> criarQuestao(CreateQuestaoRequest request){
         var questao = new Questao(request.enunciado);
@@ -24,8 +24,8 @@ public class QuestaoService implements IQuestaoService {
         return new ResponseEntity<>(_questaoRepository.save(questao), HttpStatus.CREATED);
     }
 
-    public Questao validarQuestao(CreateQuestaoRequest request) {
-        var questao = _questaoRepository.findById(request.codigo).get();
+    public Questao validarQuestao(Long codigo) {
+        var questao = _questaoRepository.findById(codigo).get();
 
         if (questao == null) {
             throw new EmptyResultDataAccessException(0);

@@ -9,26 +9,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.ghfluzao.models.Questao;
-import br.com.api.ghfluzao.services.questao.CreateQuestaoRequest;
-import br.com.api.ghfluzao.services.questao.IQuestaoService;
+import br.com.api.ghfluzao.models.Opcao;
+import br.com.api.ghfluzao.services.opçao.CreateOpcaoRequest;
+import br.com.api.ghfluzao.services.opçao.IOpcaoService;
 
 @RestController
-@RequestMapping("/questoes")
-public class QuestaoController {
+@RequestMapping("/opcoes")
+public class OpcaoController {
     
     @Autowired
-    private IQuestaoService _questaoService;
+    private IOpcaoService _opcaoService;
 
     @GetMapping("/api")
-    public Iterable<Questao> Listar(){
-        return _questaoService.listar();
+    public Iterable<Opcao> listar(){
+        return _opcaoService.listar();
     }
 
     @PostMapping("/api")
-    public ResponseEntity<String> criarQuestao(@RequestBody CreateQuestaoRequest request){
-        _questaoService.criarQuestao(request);
+    public ResponseEntity<String> criarOpcao(@RequestBody CreateOpcaoRequest request){
+        _opcaoService.criarOpcao(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Assunto criado com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Opção criada com sucesso!");
     }
 }

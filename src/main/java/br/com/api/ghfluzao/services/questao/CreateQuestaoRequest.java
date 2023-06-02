@@ -1,4 +1,4 @@
-package br.com.api.ghfluzao.services.questoes;
+package br.com.api.ghfluzao.services.questao;
 
 import lombok.Data;
 
@@ -6,5 +6,4 @@ import lombok.Data;
 public class CreateQuestaoRequest {
 
     public String enunciado;
-    public Long codigo;
 }
