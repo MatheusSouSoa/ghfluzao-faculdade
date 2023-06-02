@@ -28,6 +28,10 @@ public class Prova {
     this.ano = ano;
   }
 
+  public Prova(){
+    
+  }
+
   @OneToMany
   @JoinColumn(name = "codigo_prova")
   private List<Questao> questoes;

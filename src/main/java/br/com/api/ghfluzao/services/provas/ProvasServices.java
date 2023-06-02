@@ -25,9 +25,13 @@ public class ProvasServices implements IProvasService {
             return new ResponseEntity<>("Curso invalido",HttpStatus.BAD_REQUEST);
         }
 
-        if(prova.getAno().equals(null)){
+        if(prova.getAno().equals(null) || prova.getAno().equals(0)){
             return new ResponseEntity<>("Ano invalido",HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.CREATED);
+    }
+
+    public Iterable<Prova> listar() {
+        return _provaRepository.findAll();
     }
 }

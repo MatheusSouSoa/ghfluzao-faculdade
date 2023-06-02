@@ -2,6 +2,8 @@ package br.com.api.ghfluzao.services.cursos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.repositories.CursoRepository;
@@ -12,6 +14,16 @@ public class CursoService implements ICursoService{
 
     @Autowired
     private CursoRepository _cursoRepository;
+
+    public ResponseEntity<?> criarCurso(CreateCursoRequest request){
+        var curso = new Curso(request.nome);
+
+        if(curso.getNome().equals(null)){
+            return new ResponseEntity<>("Erro ao criar/selecionar prova", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(_cursoRepository.save(curso), HttpStatus.CREATED);
+    }
 
     
     public Curso validarCurso(String cursoNome){
