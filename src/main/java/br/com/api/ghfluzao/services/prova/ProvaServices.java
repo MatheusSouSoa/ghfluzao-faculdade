@@ -1,4 +1,4 @@
-package br.com.api.ghfluzao.services.provas;
+package br.com.api.ghfluzao.services.prova;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.repositories.ProvaRepository;
 import br.com.api.ghfluzao.models.Prova;
-import br.com.api.ghfluzao.services.cursos.ICursoService;
+import br.com.api.ghfluzao.services.curso.ICursoService;
 
 @Service
-public class ProvasServices implements IProvasService {
+public class ProvaServices implements IProvaService {
 
     @Autowired
     private ProvaRepository _provaRepository;
@@ -21,7 +21,7 @@ public class ProvasServices implements IProvasService {
     public ResponseEntity<?> criarProva(CreateProvaRequest request){
         var prova = new Prova(request.ano);
 
-        if(_cursoService.validarCurso(request.cursoNome) == null){
+        if(_cursoService.validarCurso(request.cursoNome) == null || request.getCursoNome().equals(null)){
             return new ResponseEntity<>("Curso invalido",HttpStatus.BAD_REQUEST);
         }
 

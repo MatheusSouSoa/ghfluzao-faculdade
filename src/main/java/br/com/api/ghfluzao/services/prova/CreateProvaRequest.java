@@ -1,4 +1,4 @@
-package br.com.api.ghfluzao.services.provas;
+package br.com.api.ghfluzao.services.prova;
 
 import lombok.Data;
 import lombok.ToString;

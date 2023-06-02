@@ -10,7 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "assuntos")
 @Data
@@ -19,6 +21,10 @@ public class Assunto {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long codigo;
   private String materia;
+
+  public Assunto(String materia) {
+    this.materia = materia;
+  }
 
   @OneToMany
   @JoinColumn(name = "codigo_assunto")

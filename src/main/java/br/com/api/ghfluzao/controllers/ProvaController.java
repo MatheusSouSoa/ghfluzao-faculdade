@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.models.Prova;
-import br.com.api.ghfluzao.services.provas.CreateProvaRequest;
-import br.com.api.ghfluzao.services.provas.IProvasService;
+import br.com.api.ghfluzao.services.prova.CreateProvaRequest;
+import br.com.api.ghfluzao.services.prova.IProvaService;
 
 @RestController
 @RequestMapping("/provas")
 public class ProvaController {
     
     @Autowired
-    private IProvasService  _provaService;
+    private IProvaService  _provaService;
 
     @PostMapping("/api")
     public ResponseEntity<String> criarProva(@RequestBody CreateProvaRequest request){

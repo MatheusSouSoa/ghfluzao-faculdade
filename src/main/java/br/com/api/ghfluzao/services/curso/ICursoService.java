@@ -1,4 +1,4 @@
-package br.com.api.ghfluzao.services.cursos;
+package br.com.api.ghfluzao.services.curso;
 
 
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package br.com.api.ghfluzao.services.cursos;
+package br.com.api.ghfluzao.services.curso;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
