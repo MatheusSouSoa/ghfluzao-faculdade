@@ -10,7 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "questoes")
 @Data
@@ -23,6 +25,10 @@ public class Questao {
   private int numero;
   @Column(length = 4000)
   private String figura;
+
+  public Questao(String enunciado) {
+    this.enunciado = enunciado;
+  }
 
   @OneToMany
   @JoinColumn(name = "codigo_questao")
