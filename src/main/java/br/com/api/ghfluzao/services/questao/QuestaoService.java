@@ -39,7 +39,7 @@ public class QuestaoService implements IQuestaoService {
         if(questao.getEnunciado().equals(null)){
             return new ResponseEntity<>("Questão invalida", HttpStatus.BAD_REQUEST);
         }
-        
+
         return new ResponseEntity<>(_questaoRepository.save(questao), HttpStatus.CREATED);
     }
 
@@ -55,5 +55,76 @@ public class QuestaoService implements IQuestaoService {
 
     public Iterable<Questao> listar(){
         return _questaoRepository.findAll();
+    }
+
+    public ResponseEntity<?> editarQuestao(CreateQuestaoRequest request, Long questaoCodigo) {
+
+        var questao = _questaoRepository.findById(questaoCodigo).get();
+
+        if (questao == null) {
+            return new ResponseEntity<>("Questão não existe. :(", HttpStatus.NOT_FOUND);
+        }
+
+        if(request.numeroQuestao != null){
+            questao.setNumero(request.numeroQuestao);
+        }
+
+        if(request.urlFigura != null){
+            questao.setFigura(request.urlFigura);
+        }
+
+        if (request.codigoAssunto != null) {
+            var assunto = _assuntoService.validarAssunto(request.codigoAssunto);
+            
+            if(assunto == null){
+                return new ResponseEntity<>("Assunto não existe. :(", HttpStatus.NOT_FOUND);
+            }
+            
+            questao.setCodigo_assunto(request.codigoAssunto);
+        }
+
+        if (request.codigoParte != null) {
+            var parte = _parteService.validarParte(request.codigoParte);
+
+            if(parte == null){
+                return new ResponseEntity<>("Parte não existe. :(", HttpStatus.NOT_FOUND);
+            }
+            
+            questao.setCodigo_parte(request.codigoParte);
+        }
+
+        if (request.codigoProva != null) {
+
+            var prova = _provaService.validarProva(request.codigoProva);
+            if(prova == null){
+                return new ResponseEntity<>("Prova não existe. :(", HttpStatus.NOT_FOUND);
+            }
+            
+            questao.setCodigo_prova(request.codigoProva);
+        }
+
+        return new ResponseEntity<>(_questaoRepository.save(questao), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> removerQuestao(Long questaoCodigo) {
+
+        var questao = _questaoRepository.findById(questaoCodigo).get();
+
+        if (questao == null) {
+            return new ResponseEntity<>("questao não existe.", HttpStatus.NOT_FOUND);
+        }
+
+        _questaoRepository.delete(questao);
+        return new ResponseEntity<>("questao removida com sucesso!", HttpStatus.OK);
+
+    }
+
+    public ResponseEntity<?> selecionarQuestaoPorCodigo(Long codigo) {
+        var questao = validarQuestao(codigo);
+
+        if (questao == null) {
+            return new ResponseEntity<>("questao não encontrada.", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(_questaoRepository.save(questao), HttpStatus.OK);
     }
 }

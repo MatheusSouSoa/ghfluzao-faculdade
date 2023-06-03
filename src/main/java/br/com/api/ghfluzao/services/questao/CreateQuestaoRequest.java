@@ -9,6 +9,6 @@ public class CreateQuestaoRequest {
     public Long codigoAssunto;
     public Long codigoProva;
     public String enunciado;
-    public int numeroQuestao;
+    public Integer numeroQuestao;
     public String urlFigura;
 }

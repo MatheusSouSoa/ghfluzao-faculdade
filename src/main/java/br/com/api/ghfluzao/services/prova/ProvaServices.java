@@ -65,14 +65,12 @@ public class ProvaServices implements IProvaService {
 
     public ResponseEntity<?> editarProva(ProvaEditRequest request, Long provaCodigo) {
 
-        
         var prova = _provaRepository.findById(provaCodigo).get();
 
         if(prova == null) {
             return new ResponseEntity<>("Prova não existe. :(", HttpStatus.NOT_FOUND);
         }
 
-        
         if(request.getAno() != null){
             prova.setAno(request.getAno());
         }
