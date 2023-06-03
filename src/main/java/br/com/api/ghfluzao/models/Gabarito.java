@@ -19,8 +19,10 @@ public class Gabarito {
   private Long codigo;
   @Column(length = 4000)
   private String resposta;
+  private Long codigo_questao;
 
-  public Gabarito(String resposta){
+  public Gabarito(String resposta, Long codigoQuestao){
     this.resposta = resposta;
+    this.codigo_questao = codigoQuestao;
   }
 }

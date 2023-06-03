@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.repositories.OpcaoRepository;
 import br.com.api.ghfluzao.models.Opcao;
+import br.com.api.ghfluzao.services.questao.IQuestaoService;
 
 @Service
 public class OpcaoService implements IOpcaoService{
@@ -15,10 +16,16 @@ public class OpcaoService implements IOpcaoService{
     @Autowired
     private OpcaoRepository _opcaoRepository;
 
-    public ResponseEntity<?> criarOpcao(CreateOpcaoRequest request){
-        var opcao = new Opcao(Character.toLowerCase(request.letra), request.texto);
+    @Autowired
+    private IQuestaoService _questaoService;
 
-        if(opcao.getLetra().equals(null) || opcao.getTexto().equals(null) || opcao.getLetra().toString().length() > 1){
+    public ResponseEntity<?> criarOpcao(CreateOpcaoRequest request){
+
+        var questao = _questaoService.validarQuestao(request.questaoCodigo);
+
+        var opcao = new Opcao(Character.toLowerCase(request.letra), request.texto, request.questaoCodigo);
+
+        if(opcao.getLetra().equals(null) || opcao.getTexto().equals(null) || opcao.getLetra().toString().length() > 1 || questao == null){
             return new ResponseEntity<>("Dados de opção invalidos.", HttpStatus.BAD_REQUEST);
         }
 

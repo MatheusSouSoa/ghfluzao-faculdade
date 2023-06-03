@@ -7,5 +7,6 @@ import br.com.api.ghfluzao.models.Prova;
 
 public interface ProvaRepository extends CrudRepository<Prova, Long>{
   
+    long countByCodigo(Long codigo);
 
 }

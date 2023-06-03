@@ -6,4 +6,5 @@ import lombok.Data;
 public class CreateGabaritoRequest {
 
     public String resposta;
+    public Long questaoCodigo;
 }

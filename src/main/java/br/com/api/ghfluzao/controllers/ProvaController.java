@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.api.ghfluzao.models.Prova;
 import br.com.api.ghfluzao.services.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.services.prova.IProvaService;
+import br.com.api.ghfluzao.services.prova.ProvaEditRequest;
 
 @RestController
 @RequestMapping("/api-v1/provas")
@@ -33,4 +36,13 @@ public class ProvaController {
         return _provaService.listar();
     }
 
+    @PutMapping("/aplicar-prova/{codigoProva}")
+    public ResponseEntity<?> aplicarProva(@PathVariable Long codigoProva){
+        return _provaService.aplicarProva(codigoProva);
+    }
+
+    @PutMapping("/{cursoNome}/editar-prova/{provaCodigo}")
+    public ResponseEntity<?> editarProva(@PathVariable String cursoNome, @PathVariable Long provaCodigo, @RequestBody ProvaEditRequest request){
+        return _provaService.editarProva(request, cursoNome, provaCodigo);
+    }
 }

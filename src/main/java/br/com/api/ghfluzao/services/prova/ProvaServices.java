@@ -1,5 +1,7 @@
 package br.com.api.ghfluzao.services.prova;
 
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -21,8 +23,7 @@ public class ProvaServices implements IProvaService {
 
     public ResponseEntity<?> criarProva(CreateProvaRequest request){
         var curso = _cursoService.validarCurso(request.cursoNome);
-        
-        //verificar tbm parte e assunto depois
+
         if(curso == null || request.getCursoNome().equals(null)){
             return new ResponseEntity<>("Curso invalido",HttpStatus.BAD_REQUEST);
         }
@@ -36,16 +37,50 @@ public class ProvaServices implements IProvaService {
 
     public Prova validarProva(Long codigoProva) {
 
-        var curso = _provaRepository.findById(codigoProva).get();
+        var prova = _provaRepository.findById(codigoProva).get();
 
-        if (curso == null) {
+        if (prova == null) {
             throw new EmptyResultDataAccessException(0);
         }
 
-        return curso;
+        return prova;
     }
 
     public Iterable<Prova> listar() {
         return _provaRepository.findAll();
+    }
+
+    public ResponseEntity<?> aplicarProva(Long codigoProva) {
+
+        var prova = _provaRepository.findById(codigoProva).get();
+        
+        if(_provaRepository.countByCodigo(codigoProva) == 0) {
+            return new ResponseEntity<>("Prova não existe. :(", HttpStatus.NOT_FOUND);
+        }
+        prova.setData_aplicacao(Calendar.getInstance());
+        
+        return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<?> editarProva(ProvaEditRequest request, String cursoNome, Long provaCodigo) {
+
+        var curso = _cursoService.validarCurso(cursoNome);
+        var prova = _provaRepository.findById(provaCodigo).get();
+
+        if(prova == null) {
+            return new ResponseEntity<>("Prova não existe. :(", HttpStatus.NOT_FOUND);
+        }
+        if(curso == null) {
+            return new ResponseEntity<>("Curso não existe. :(", HttpStatus.NOT_FOUND);
+        }
+        if(!curso.getProvas().contains(prova)){
+            return ResponseEntity.notFound().build();
+        }
+        
+        prova.setAno(request.getAno());
+        prova.setCodigo_curso(curso.getCodigo());
+
+        return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.OK);
     }
 }

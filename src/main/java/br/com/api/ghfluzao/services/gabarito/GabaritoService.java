@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.repositories.GabaritoRepository;
 import br.com.api.ghfluzao.models.Gabarito;
+import br.com.api.ghfluzao.services.questao.IQuestaoService;
 
 @Service
 public class GabaritoService implements IGabaritoService {
@@ -14,10 +15,16 @@ public class GabaritoService implements IGabaritoService {
     @Autowired
     private GabaritoRepository _gabaritoRepository;
 
-    public ResponseEntity<?> criarGabarito(CreateGabaritoRequest request){
-        var gabarito = new Gabarito(request.resposta);
+    @Autowired
+    private IQuestaoService _questaoService;
 
-        if(gabarito.getResposta().equals(null)){
+    public ResponseEntity<?> criarGabarito(CreateGabaritoRequest request){
+
+        var questao = _questaoService.validarQuestao(request.questaoCodigo);
+
+        var gabarito = new Gabarito(request.resposta, request.questaoCodigo);
+
+        if(gabarito.getResposta().equals(null) || questao == null || gabarito == null){
             return new ResponseEntity<>("Gabarito invalido.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(_gabaritoRepository.save(gabarito), HttpStatus.CREATED);

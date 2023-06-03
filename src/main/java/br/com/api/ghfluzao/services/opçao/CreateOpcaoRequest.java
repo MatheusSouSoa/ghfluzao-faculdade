@@ -7,5 +7,5 @@ public class CreateOpcaoRequest {
 
     public Character letra;
     public String texto;
-    public Long codigo_questao;
+    public Long questaoCodigo;
 }

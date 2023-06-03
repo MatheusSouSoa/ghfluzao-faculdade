@@ -20,9 +20,11 @@ public class Opcao {
   private Character letra;  
   @Column(length = 4000)
   private String texto;
+  private Long codigo_questao;
   
-  public Opcao(Character letra, String texto){
+  public Opcao(Character letra, String texto, Long codigo_questao) {
     this.letra = letra;
     this.texto = texto;
+    this.codigo_questao = codigo_questao;
   }
 }

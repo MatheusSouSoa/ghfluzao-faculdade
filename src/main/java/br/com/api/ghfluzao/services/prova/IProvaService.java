@@ -9,4 +9,6 @@ public interface IProvaService {
     ResponseEntity<?> criarProva(CreateProvaRequest request);
     Iterable<Prova> listar();
     Prova validarProva(Long codigoProva);
+    ResponseEntity<?> aplicarProva(Long codigoProva);
+    ResponseEntity<?> editarProva(ProvaEditRequest request, String cursoNome, Long provaCodigo);
 }
