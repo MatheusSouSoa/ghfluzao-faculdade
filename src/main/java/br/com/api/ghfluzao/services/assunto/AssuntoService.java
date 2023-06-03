@@ -25,11 +25,11 @@ public class AssuntoService implements IAssuntoService {
         return new ResponseEntity<>(_assuntoRepository.save(assunto), HttpStatus.CREATED);
     }
 
-    public Assunto validarAssunto(String assuntoNome){
-        var assunto = _assuntoRepository.findByMateria(assuntoNome).get(0);
+    public Assunto validarAssunto(Long assuntoCodigo){
+        var assunto = _assuntoRepository.findById(assuntoCodigo).get();
 
         if(assunto == null){
-            throw new EmptyResultDataAccessException(assuntoNome, 0);
+            throw new EmptyResultDataAccessException(0);
         }
 
         return assunto;

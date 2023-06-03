@@ -7,6 +7,6 @@ import br.com.api.ghfluzao.models.Parte;
 public interface IParteService {
 
     Iterable<Parte> listar();
-    Parte validarParte(String parteNome);
+    Parte validarParte(Long parteCodigo);
     ResponseEntity<?> criarParte(CreateParteRequest request);
 }

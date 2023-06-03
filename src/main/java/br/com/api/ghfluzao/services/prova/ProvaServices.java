@@ -22,6 +22,7 @@ public class ProvaServices implements IProvaService {
     public ResponseEntity<?> criarProva(CreateProvaRequest request){
         var curso = _cursoService.validarCurso(request.cursoNome);
         
+        //verificar tbm parte e assunto depois
         if(curso == null || request.getCursoNome().equals(null)){
             return new ResponseEntity<>("Curso invalido",HttpStatus.BAD_REQUEST);
         }

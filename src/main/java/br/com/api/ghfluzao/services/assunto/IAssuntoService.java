@@ -7,7 +7,7 @@ import br.com.api.ghfluzao.models.Assunto;
 public interface IAssuntoService {
 
     ResponseEntity<?> criarAssunto(CreateAssuntoRequest request);
-    Assunto validarAssunto(String assuntoNome);
+    Assunto validarAssunto(Long assuntoCodigo);
     Iterable<Assunto> listar();
 
 }

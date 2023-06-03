@@ -24,11 +24,11 @@ public class ParteService implements IParteService{
         return new ResponseEntity<>(_parteRepository.save(parte), HttpStatus.CREATED);
     }
 
-    public Parte validarParte(String parteNome){
-        Parte parte = _parteRepository.findByNome(parteNome).get(0);
+    public Parte validarParte(Long parteCodigo){
+        Parte parte = _parteRepository.findById(parteCodigo).get();
 
         if(parte == null){
-            throw new EmptyResultDataAccessException(parteNome, 0);
+            throw new EmptyResultDataAccessException(0);
         }
         return parte;
     }

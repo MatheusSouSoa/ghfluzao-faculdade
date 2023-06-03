@@ -6,7 +6,9 @@ import lombok.Data;
 public class CreateQuestaoRequest {
 
     public Long codigoParte;
-    private Long codigoAssunto;
+    public Long codigoAssunto;
     public Long codigoProva;
     public String enunciado;
+    public int numeroQuestao;
+    public String urlFigura;
 }

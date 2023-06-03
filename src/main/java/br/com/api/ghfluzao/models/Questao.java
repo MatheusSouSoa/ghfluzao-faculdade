@@ -26,10 +26,16 @@ public class Questao {
   @Column(length = 4000)
   private String figura;
   private Long codigo_prova;
+  private Long codigo_parte;
+  private Long codigo_assunto;
 
-  public Questao(String enunciado, Long codigo_prova) {
+  public Questao(String enunciado, int numeroQuestao, String urlFigura  ,Long codigo_prova, Long codigo_parte, Long codigo_assunto) {
     this.enunciado = enunciado;
+    this.numero = numeroQuestao;
+    this.figura = urlFigura;
     this.codigo_prova = codigo_prova;
+    this.codigo_parte = codigo_parte;
+    this.codigo_assunto = codigo_assunto;
   }
 
   @OneToMany
