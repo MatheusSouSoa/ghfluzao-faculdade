@@ -6,4 +6,5 @@ import lombok.Data;
 public class ProvaEditRequest {
     
     public int ano;
+    public Long codigoCurso;
 }

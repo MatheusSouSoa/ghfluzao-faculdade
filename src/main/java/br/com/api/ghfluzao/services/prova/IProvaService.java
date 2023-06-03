@@ -11,4 +11,5 @@ public interface IProvaService {
     Prova validarProva(Long codigoProva);
     ResponseEntity<?> aplicarProva(Long codigoProva);
     ResponseEntity<?> editarProva(ProvaEditRequest request, String cursoNome, Long provaCodigo);
+    ResponseEntity<?> removerProva(Long provaCodigo);
 }

@@ -79,8 +79,21 @@ public class ProvaServices implements IProvaService {
         }
         
         prova.setAno(request.getAno());
-        prova.setCodigo_curso(curso.getCodigo());
+        prova.setCodigo_curso(request.getCodigoCurso());//troquei de curso.getCodigo, para request.getCodigoCurso. SE NAO FUNCIONAR, O PROBLEMA TA AI.
 
         return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> removerProva(Long provaCodigo){
+
+        var prova = _provaRepository.findById(provaCodigo).get();
+
+        if(prova == null){
+            return new ResponseEntity<>("Prova não existe.", HttpStatus.NOT_FOUND);
+        }
+
+        _provaRepository.delete(prova);
+        return new ResponseEntity<>("Prova removida com sucesso!", HttpStatus.OK);
+
     }
 }
