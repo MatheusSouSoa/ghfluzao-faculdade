@@ -27,7 +27,7 @@ public class ProvaServices implements IProvaService {
         if(curso == null || request.getCursoNome().equals(null)){
             return new ResponseEntity<>("Curso invalido",HttpStatus.BAD_REQUEST);
         }
-        var prova = new Prova(request.getProva().getAno(),curso.getCodigo());
+        var prova = new Prova(request.getAno(),curso.getCodigo());
 
         if(prova.getAno().equals(null) || prova.getAno().equals(0)){
             return new ResponseEntity<>("Ano invalido",HttpStatus.BAD_REQUEST);
