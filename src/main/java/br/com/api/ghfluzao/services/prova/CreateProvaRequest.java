@@ -8,9 +8,6 @@ import lombok.ToString;
 public class CreateProvaRequest {
     
     public String cursoNome;
-    public String assuntoNome;
-    public String parteNome;
     public Integer ano;
-
 
 }

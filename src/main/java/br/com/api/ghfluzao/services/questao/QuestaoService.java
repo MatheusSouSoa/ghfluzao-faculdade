@@ -31,16 +31,15 @@ public class QuestaoService implements IQuestaoService {
         var parte = _parteService.validarParte(request.codigoParte);
         var assunto = _assuntoService.validarAssunto(request.codigoAssunto);
 
-
         var questao = new Questao(request.getEnunciado(),request.numeroQuestao, request.urlFigura , prova.getCodigo(), parte.getCodigo(), assunto.getCodigo());
 
         if (prova == null || parte == null || assunto == null) {
             return new ResponseEntity<>("Erro ao criar questão", HttpStatus.BAD_REQUEST);
         }
-
         if(questao.getEnunciado().equals(null)){
             return new ResponseEntity<>("Questão invalida", HttpStatus.BAD_REQUEST);
         }
+        
         return new ResponseEntity<>(_questaoRepository.save(questao), HttpStatus.CREATED);
     }
 

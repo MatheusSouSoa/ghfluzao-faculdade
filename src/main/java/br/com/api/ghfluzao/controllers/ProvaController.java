@@ -51,4 +51,9 @@ public class ProvaController {
     public ResponseEntity<?> removerProva(@PathVariable Long codigoProva){
         return _provaService.removerProva(codigoProva);
     }
+
+    @GetMapping("/buscar-prova/{codigoProva}")
+    public ResponseEntity<?> buscarProvaPeloCodigo(@PathVariable Long codigoProva){
+        return _provaService.selecionarProvaPorCodigo(codigoProva);
+    }
 }

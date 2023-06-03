@@ -12,4 +12,5 @@ public interface IProvaService {
     ResponseEntity<?> aplicarProva(Long codigoProva);
     ResponseEntity<?> editarProva(ProvaEditRequest request, Long provaCodigo);
     ResponseEntity<?> removerProva(Long provaCodigo);
+    ResponseEntity<?> selecionarProvaPorCodigo(Long codigo);
 }

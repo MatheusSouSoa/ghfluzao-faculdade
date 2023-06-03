@@ -84,7 +84,7 @@ public class ProvaServices implements IProvaService {
             if (!curso.getProvas().contains(prova)) {
                 return ResponseEntity.notFound().build();
             }
-            prova.setCodigo_curso(request.getCodigoCurso());//troquei de curso.getCodigo, para request.getCodigoCurso. SE NAO FUNCIONAR, O PROBLEMA TA AI.
+            prova.setCodigo_curso(request.getCodigoCurso());
         }
 
         return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.OK);
@@ -101,6 +101,15 @@ public class ProvaServices implements IProvaService {
         _provaRepository.delete(prova);
         return new ResponseEntity<>("Prova removida com sucesso!", HttpStatus.OK);
 
+    }
+
+    public ResponseEntity<?> selecionarProvaPorCodigo(Long codigo){
+        var prova = validarProva(codigo);
+
+        if(prova == null){
+            return new ResponseEntity<>("Prova não encontrada.", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(_provaRepository.save(prova),HttpStatus.OK);
     }
 
 }
