@@ -63,9 +63,9 @@ public class ProvaServices implements IProvaService {
     }
 
 
-    public ResponseEntity<?> editarProva(ProvaEditRequest request, String cursoNome, Long provaCodigo) {
+    public ResponseEntity<?> editarProva(ProvaEditRequest request, Long cursoCodigo, Long provaCodigo) {
 
-        var curso = _cursoService.validarCurso(cursoNome);
+        var curso = _cursoService.validarCurso(cursoCodigo);
         var prova = _provaRepository.findById(provaCodigo).get();
 
         if(prova == null) {
@@ -78,8 +78,14 @@ public class ProvaServices implements IProvaService {
             return ResponseEntity.notFound().build();
         }
         
-        prova.setAno(request.getAno());
-        prova.setCodigo_curso(request.getCodigoCurso());//troquei de curso.getCodigo, para request.getCodigoCurso. SE NAO FUNCIONAR, O PROBLEMA TA AI.
+        if(request.getAno() != null){
+            prova.setAno(request.getAno());
+        }
+        if(request.getCodigoCurso() != null){
+             prova.setCodigo_curso(request.getCodigoCurso());//troquei de curso.getCodigo, para request.getCodigoCurso. SE NAO FUNCIONAR, O PROBLEMA TA AI.
+        }
+        
+       
 
         return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.OK);
     }
@@ -96,4 +102,5 @@ public class ProvaServices implements IProvaService {
         return new ResponseEntity<>("Prova removida com sucesso!", HttpStatus.OK);
 
     }
+
 }

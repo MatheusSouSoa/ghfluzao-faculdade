@@ -42,9 +42,9 @@ public class ProvaController {
         return _provaService.aplicarProva(codigoProva);
     }
 
-    @PutMapping("/{cursoNome}/editar-prova/{provaCodigo}")
-    public ResponseEntity<?> editarProva(@PathVariable String cursoNome, @PathVariable Long provaCodigo, @RequestBody ProvaEditRequest request){
-        return _provaService.editarProva(request, cursoNome, provaCodigo);
+    @PutMapping("/{cursoCodigo}/editar-prova/{provaCodigo}")
+    public ResponseEntity<?> editarProva(@PathVariable Long cursoCodigo, @PathVariable Long provaCodigo, @RequestBody ProvaEditRequest request){
+        return _provaService.editarProva(request, cursoCodigo, provaCodigo);
     }
 
     @DeleteMapping("/deletar-prova/{codigoProva}")

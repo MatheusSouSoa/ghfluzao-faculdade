@@ -41,6 +41,17 @@ public class CursoService implements ICursoService{
         return curso;
     }
 
+    public Curso validarCurso(Long cursoCodigo){
+        
+        var curso = _cursoRepository.findById(cursoCodigo).get();
+
+        if(curso == null){
+            throw new EmptyResultDataAccessException(0);
+        }
+
+        return curso;
+    }
+
     public Iterable<Curso> listar(){
         return _cursoRepository.findAll();
     }
