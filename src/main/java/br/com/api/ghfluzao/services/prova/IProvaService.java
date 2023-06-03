@@ -10,6 +10,6 @@ public interface IProvaService {
     Iterable<Prova> listar();
     Prova validarProva(Long codigoProva);
     ResponseEntity<?> aplicarProva(Long codigoProva);
-    ResponseEntity<?> editarProva(ProvaEditRequest request, Long cursoCodigo, Long provaCodigo);
+    ResponseEntity<?> editarProva(ProvaEditRequest request, Long provaCodigo);
     ResponseEntity<?> removerProva(Long provaCodigo);
 }

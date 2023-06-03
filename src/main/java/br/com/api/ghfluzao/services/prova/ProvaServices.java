@@ -63,29 +63,29 @@ public class ProvaServices implements IProvaService {
     }
 
 
-    public ResponseEntity<?> editarProva(ProvaEditRequest request, Long cursoCodigo, Long provaCodigo) {
+    public ResponseEntity<?> editarProva(ProvaEditRequest request, Long provaCodigo) {
 
-        var curso = _cursoService.validarCurso(cursoCodigo);
+        
         var prova = _provaRepository.findById(provaCodigo).get();
 
         if(prova == null) {
             return new ResponseEntity<>("Prova não existe. :(", HttpStatus.NOT_FOUND);
         }
-        if(curso == null) {
-            return new ResponseEntity<>("Curso não existe. :(", HttpStatus.NOT_FOUND);
-        }
-        if(!curso.getProvas().contains(prova)){
-            return ResponseEntity.notFound().build();
-        }
+
         
         if(request.getAno() != null){
             prova.setAno(request.getAno());
         }
         if(request.getCodigoCurso() != null){
-             prova.setCodigo_curso(request.getCodigoCurso());//troquei de curso.getCodigo, para request.getCodigoCurso. SE NAO FUNCIONAR, O PROBLEMA TA AI.
+            var curso = _cursoService.validarCurso(request.codigoCurso);
+            if (curso == null) {
+                return new ResponseEntity<>("Curso não existe. :(", HttpStatus.NOT_FOUND);
+            }
+            if (!curso.getProvas().contains(prova)) {
+                return ResponseEntity.notFound().build();
+            }
+            prova.setCodigo_curso(request.getCodigoCurso());//troquei de curso.getCodigo, para request.getCodigoCurso. SE NAO FUNCIONAR, O PROBLEMA TA AI.
         }
-        
-       
 
         return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.OK);
     }
