@@ -65,4 +65,10 @@ public class ProvaController {
         List<SearchProvaResponse> provas = _provaService.buscarPorCodigoCurso(codigoCurso);
         return ResponseEntity.ok(provas);
     }
+
+    @GetMapping("/buscar-por-ano")
+    public ResponseEntity<List<SearchProvaResponse>> buscarPorAno(@RequestParam("ano") Integer ano) {
+        List<SearchProvaResponse> provas = _provaService.buscarPorAno(ano);
+        return ResponseEntity.ok(provas);
+    }
 }

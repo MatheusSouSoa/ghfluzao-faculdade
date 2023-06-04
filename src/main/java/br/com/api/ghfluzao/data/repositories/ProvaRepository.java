@@ -18,4 +18,7 @@ public interface ProvaRepository extends CrudRepository<Prova, Long>{
     @Query("SELECT p FROM Prova p WHERE p.codigo_curso = :codigoCurso")
     List<Prova> findByCodigo_curso(@Param("codigoCurso") Long codigoCurso);
 
+    @Query("SELECT p FROM Prova p WHERE p.ano = :ano")
+    List<Prova> findByAno(@Param("ano") Integer codigoCurso);
+
 }

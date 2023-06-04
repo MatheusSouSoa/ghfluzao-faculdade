@@ -19,4 +19,5 @@ public interface ProvaServiceInterface {
     ResponseEntity<?> removerProva(Long provaCodigo);
     ResponseEntity<?> selecionarProvaPorCodigo(Long codigo);
     List<SearchProvaResponse> buscarPorCodigoCurso(Long codigoCurso);
+    List<SearchProvaResponse> buscarPorAno(Integer codigoCurso);
 }

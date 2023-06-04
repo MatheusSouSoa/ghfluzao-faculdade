@@ -130,9 +130,14 @@ public class ProvaServices implements ProvaServiceInterface {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<SearchProvaResponse> buscarPorCodigoCurso(Long codigoCurso) {
         return mapToSPRList( _provaRepository.findByCodigo_curso(codigoCurso));
     }
+
+    public List<SearchProvaResponse> buscarPorAno(Integer codigoCurso) {
+        return mapToSPRList( _provaRepository.findByAno(codigoCurso));
+    }
+
+    
 
 }
