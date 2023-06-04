@@ -1,6 +1,8 @@
 package br.com.api.ghfluzao.services;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -50,8 +52,9 @@ public class ProvaServices implements ProvaServiceInterface {
         return prova;
     }
 
-    public Iterable<Prova> listar() {
-        return _provaRepository.findAll();
+    public List<SearchProvaResponse> listar() {
+        List<Prova> provas = (List<Prova>) _provaRepository.findAll();
+        return mapToSPRList(provas);
     }
 
     public ResponseEntity<?> aplicarProva(Long codigoProva) {
@@ -117,6 +120,18 @@ public class ProvaServices implements ProvaServiceInterface {
         SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getCodigo_curso());
 
         return ResponseEntity.status(HttpStatus.OK).body(provaResponse);
+    }
+
+    private List<SearchProvaResponse> mapToSPRList(List<Prova> provas) {
+        List<SearchProvaResponse> ProvaResponses = new ArrayList<>();
+
+        for (Prova prova : provas) {
+            SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(),
+                    prova.getData_criacao(), prova.getData_aplicacao(), prova.getCodigo_curso());
+            ProvaResponses.add(provaResponse);
+        }
+
+        return ProvaResponses;
     }
 
 }

@@ -1,5 +1,7 @@
 package br.com.api.ghfluzao.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.data.dto.prova.ProvaEditRequest;
+import br.com.api.ghfluzao.data.dto.prova.SearchProvaResponse;
 import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
-import br.com.api.ghfluzao.models.Prova;
 
 @RestController
 @RequestMapping("/api-v1/provas")
@@ -33,7 +35,7 @@ public class ProvaController {
     }
 
     @GetMapping("")
-    public Iterable<Prova> listar() {
+    public List<SearchProvaResponse> listar() {
         return _provaService.listar();
     }
 
