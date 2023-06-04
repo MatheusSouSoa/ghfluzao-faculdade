@@ -19,7 +19,6 @@ import br.com.api.ghfluzao.data.dto.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.data.dto.prova.ProvaEditRequest;
 import br.com.api.ghfluzao.data.dto.prova.SearchProvaResponse;
 import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
-import br.com.api.ghfluzao.models.Prova;
 
 @RestController
 @RequestMapping("/api-v1/provas")
@@ -61,9 +60,9 @@ public class ProvaController {
         return _provaService.selecionarProvaPorCodigo(codigoProva);
     }
 
-    @GetMapping("/buscar-questoes-da-prova")
-    public ResponseEntity<List<Prova>> buscarPorIds(@RequestParam("codigoProva") List<Long> codigoProva) {
-        List<Prova> provas = _provaService.buscarPorIds(codigoProva);
+    @GetMapping("/buscar-por-curso")
+    public ResponseEntity<List<SearchProvaResponse>> buscarPorCodigoCurso(@RequestParam("codigoCurso") Long codigoCurso) {
+        List<SearchProvaResponse> provas = _provaService.buscarPorCodigoCurso(codigoCurso);
         return ResponseEntity.ok(provas);
     }
 }

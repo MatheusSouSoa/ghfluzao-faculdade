@@ -131,8 +131,8 @@ public class ProvaServices implements ProvaServiceInterface {
     }
 
     @Override
-    public List<Prova> buscarPorIds(List<Long> ids) {
-        return _provaRepository.findAllById(ids);
+    public List<SearchProvaResponse> buscarPorCodigoCurso(Long codigoCurso) {
+        return mapToSPRList( _provaRepository.findByCodigo_curso(codigoCurso));
     }
 
 }
