@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.data.dto.prova.ProvaEditRequest;
 import br.com.api.ghfluzao.data.dto.prova.SearchProvaResponse;
 import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
+import br.com.api.ghfluzao.models.Prova;
 
 @RestController
 @RequestMapping("/api-v1/provas")
@@ -57,5 +59,11 @@ public class ProvaController {
     @GetMapping("/buscar-prova/{codigoProva}")
     public ResponseEntity<?> buscarProvaPeloCodigo(@PathVariable Long codigoProva){
         return _provaService.selecionarProvaPorCodigo(codigoProva);
+    }
+
+    @GetMapping("/buscar-questoes-da-prova")
+    public ResponseEntity<List<Prova>> buscarPorIds(@RequestParam("codigoProva") List<Long> codigoProva) {
+        List<Prova> provas = _provaService.buscarPorIds(codigoProva);
+        return ResponseEntity.ok(provas);
     }
 }

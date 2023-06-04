@@ -1,5 +1,7 @@
 package br.com.api.ghfluzao.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.questao.CreateQuestaoRequest;
+import br.com.api.ghfluzao.data.dto.questao.SearchQuestaoResponse;
 import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
-import br.com.api.ghfluzao.models.Questao;
 
 @RestController
 @RequestMapping("/api-v1/questoes")
@@ -24,7 +26,7 @@ public class QuestaoController {
     private QuestaoServiceInterface _questaoService;
 
     @GetMapping("")
-    public Iterable<Questao> Listar(){
+    public List<SearchQuestaoResponse> Listar(){
         return _questaoService.listar();
     }
 

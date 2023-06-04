@@ -1,8 +1,8 @@
 package br.com.api.ghfluzao.services;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -123,15 +123,16 @@ public class ProvaServices implements ProvaServiceInterface {
     }
 
     private List<SearchProvaResponse> mapToSPRList(List<Prova> provas) {
-        List<SearchProvaResponse> ProvaResponses = new ArrayList<>();
+        return provas.stream()
+                .map(prova -> new SearchProvaResponse(
+                        prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(),
+                        prova.getCodigo_curso()))
+                .collect(Collectors.toList());
+    }
 
-        for (Prova prova : provas) {
-            SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(),
-                    prova.getData_criacao(), prova.getData_aplicacao(), prova.getCodigo_curso());
-            ProvaResponses.add(provaResponse);
-        }
-
-        return ProvaResponses;
+    @Override
+    public List<Prova> buscarPorIds(List<Long> ids) {
+        return _provaRepository.findAllById(ids);
     }
 
 }

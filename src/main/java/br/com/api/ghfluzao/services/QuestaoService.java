@@ -1,5 +1,8 @@
 package br.com.api.ghfluzao.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -56,8 +59,9 @@ public class QuestaoService implements QuestaoServiceInterface {
         return questao;
     }
 
-    public Iterable<Questao> listar(){
-        return _questaoRepository.findAll();
+    public List<SearchQuestaoResponse> listar(){
+        List<Questao> questoes = (List<Questao>) _questaoRepository.findAll();
+        return mapToSPRList(questoes);
     }
 
     public ResponseEntity<?> editarQuestao(CreateQuestaoRequest request, Long questaoCodigo) {
@@ -135,4 +139,19 @@ public class QuestaoService implements QuestaoServiceInterface {
 
         return ResponseEntity.status(HttpStatus.OK).body(questaoResponse);
     }
+
+    private List<SearchQuestaoResponse> mapToSPRList(List<Questao> questoes) {
+        return questoes.stream()
+                .map(questao -> new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura()))
+                .collect(Collectors.toList());
+
+    }
+
+    // private List<SearchProvaResponse> mapToSPRList(List<Prova> provas) {
+    //     return provas.stream()
+    //             .map(prova -> new SearchProvaResponse(
+    //                     prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(),
+    //                     prova.getCodigo_curso()))
+    //             .collect(Collectors.toList());
+    // }
 }

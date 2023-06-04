@@ -18,4 +18,5 @@ public interface ProvaServiceInterface {
     ResponseEntity<?> editarProva(ProvaEditRequest request, Long provaCodigo);
     ResponseEntity<?> removerProva(Long provaCodigo);
     ResponseEntity<?> selecionarProvaPorCodigo(Long codigo);
+    List<Prova> buscarPorIds(List<Long> ids);
 }
