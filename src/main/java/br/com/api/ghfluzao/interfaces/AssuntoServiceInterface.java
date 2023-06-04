@@ -10,5 +10,8 @@ public interface AssuntoServiceInterface {
     ResponseEntity<?> criarAssunto(CreateAssuntoRequest request);
     Assunto validarAssunto(Long assuntoCodigo);
     Iterable<Assunto> listar();
+    ResponseEntity<?> selecionarAssuntoPorCodigo(Long codigo);
+    ResponseEntity<?> removerAssunto(Long assuntoCodigo);
+    ResponseEntity<?> editarAssunto(CreateAssuntoRequest request, Long assuntoCodigo);
 
 }

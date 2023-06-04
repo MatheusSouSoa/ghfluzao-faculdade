@@ -35,18 +35,18 @@ public class ParteController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Parte criada com sucesso!");
     }
 
-    @PutMapping("/editar-Parte/{ParteCodigo}")
-    public ResponseEntity<?> editarParte(@PathVariable Long ParteCodigo,
+    @PutMapping("/editar-parte/{ParteCodigo}")
+    public ResponseEntity<?> editarParte(@PathVariable Long parteCodigo,
             @RequestBody CreateParteRequest request) {
-        return _parteService.editarParte(request, ParteCodigo);
+        return _parteService.editarParte(request, parteCodigo);
     }
 
-    @DeleteMapping("/deletar-Parte/{codigoParte}")
+    @DeleteMapping("/deletar-parte/{codigoParte}")
     public ResponseEntity<?> removerParte(@PathVariable Long codigoParte) {
         return _parteService.removerParte(codigoParte);
     }
 
-    @GetMapping("/buscar-Parte/{codigoParte}")
+    @GetMapping("/buscar-parte/{codigoParte}")
     public ResponseEntity<?> buscarPartePeloCodigo(@PathVariable Long codigoParte) {
         return _parteService.selecionarPartePorCodigo(codigoParte);
     }
