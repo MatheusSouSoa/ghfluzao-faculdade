@@ -9,4 +9,7 @@ public interface GabaritoServiceInterface {
 
     Iterable<Gabarito> listar();
     ResponseEntity<?> criarGabarito(CreateGabaritoRequest request);
+    ResponseEntity<?> selecionarGabaritoPorCodigo(Long codigo);
+    ResponseEntity<?> removerGabarito(Long gabaritoCodigo);
+    ResponseEntity<?> editarGabarito(CreateGabaritoRequest request, Long gabaritoCodigo);
 }
