@@ -3,8 +3,11 @@ package br.com.api.ghfluzao.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,5 +34,21 @@ public class CursoController {
         _cursoService.criarCurso(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Curso criado com sucesso");
+    }
+
+    @PutMapping("/editar-curso/{cursoCodigo}")
+    public ResponseEntity<?> editarcurso(@PathVariable Long cursoCodigo,
+            @RequestBody CreateCursoRequest request) {
+        return _cursoService.editarCurso(request, cursoCodigo);
+    }
+
+    @DeleteMapping("/deletar-curso/{codigoCurso}")
+    public ResponseEntity<?> removerCurso(@PathVariable Long codigoCurso) {
+        return _cursoService.removerCurso(codigoCurso);
+    }
+
+    @GetMapping("/buscar-Curso/{codigoCurso}")
+    public ResponseEntity<?> buscarCursoPeloCodigo(@PathVariable Long codigoCurso) {
+        return _cursoService.selecionarCursoPorCodigo(codigoCurso);
     }
 }

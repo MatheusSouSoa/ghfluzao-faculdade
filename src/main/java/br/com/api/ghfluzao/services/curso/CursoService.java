@@ -56,4 +56,43 @@ public class CursoService implements ICursoService{
         return _cursoRepository.findAll();
     }
 
+    public ResponseEntity<?> editarCurso(CreateCursoRequest request, Long cursoCodigo) {
+
+        var curso = _cursoRepository.findById(cursoCodigo).get();
+
+        if (curso == null) {
+            return new ResponseEntity<>("Curso não existe. :(", HttpStatus.NOT_FOUND);
+        }
+
+        if (request.nome != null) {
+            curso.setNome(request.nome);
+        }
+
+        return new ResponseEntity<>(_cursoRepository.save(curso), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> removerCurso(Long CursoCodigo) {
+
+        var curso = _cursoRepository.findById(CursoCodigo).get();
+
+        if (curso == null) {
+            return new ResponseEntity<>("Curso não existe.", HttpStatus.NOT_FOUND);
+        }
+
+        _cursoRepository.delete(curso);
+        return new ResponseEntity<>("Curso removido com sucesso!", HttpStatus.OK);
+
+    }
+
+    public ResponseEntity<?> selecionarCursoPorCodigo(Long codigo) {
+        var curso = validarCurso(codigo);
+
+        if (curso == null) {
+            return new ResponseEntity<>("Curso não encontrado.", HttpStatus.NOT_FOUND);
+        }
+        SearchCursoResponse cursoResponse = new SearchCursoResponse(curso.getCodigo(),curso.getNome());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(cursoResponse);
+    }
+
 }

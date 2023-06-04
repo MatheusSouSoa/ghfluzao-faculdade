@@ -11,4 +11,7 @@ public interface ICursoService {
     Curso validarCurso(Long cursoCodigo);
     public Iterable<Curso> listar();
     ResponseEntity<?> criarCurso(CreateCursoRequest request);
+    ResponseEntity<?> editarCurso(CreateCursoRequest request, Long cursoCodigo);
+    ResponseEntity<?> removerCurso(Long CursoCodigo);
+    ResponseEntity<?> selecionarCursoPorCodigo(Long codigo);
 }

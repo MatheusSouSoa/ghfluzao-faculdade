@@ -125,6 +125,8 @@ public class QuestaoService implements IQuestaoService {
         if (questao == null) {
             return new ResponseEntity<>("questao não encontrada.", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(_questaoRepository.save(questao), HttpStatus.OK);
+        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(questaoResponse);
     }
 }

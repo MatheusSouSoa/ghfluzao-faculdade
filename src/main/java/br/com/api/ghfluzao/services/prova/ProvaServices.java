@@ -107,7 +107,9 @@ public class ProvaServices implements IProvaService {
         if(prova == null){
             return new ResponseEntity<>("Prova não encontrada.", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(_provaRepository.save(prova),HttpStatus.OK);
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getCodigo_curso());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(provaResponse);
     }
 
 }

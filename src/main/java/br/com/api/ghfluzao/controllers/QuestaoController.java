@@ -40,12 +40,12 @@ public class QuestaoController {
         return _questaoService.editarQuestao(request, questaoCodigo);
     }
 
-    @DeleteMapping("/deletar-Questao/{codigoQuestao}")
+    @DeleteMapping("/deletar-questao/{codigoQuestao}")
     public ResponseEntity<?> removerQuestao(@PathVariable Long codigoQuestao) {
         return _questaoService.removerQuestao(codigoQuestao);
     }
 
-    @GetMapping("/buscar-Questao/{codigoQuestao}")
+    @GetMapping("/buscar-questao/{codigoQuestao}")
     public ResponseEntity<?> buscarQuestaoPeloCodigo(@PathVariable Long codigoQuestao) {
         return _questaoService.selecionarQuestaoPorCodigo(codigoQuestao);
     }
