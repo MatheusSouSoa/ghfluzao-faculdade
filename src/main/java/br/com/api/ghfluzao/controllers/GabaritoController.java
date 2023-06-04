@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.ghfluzao.data.dto.gabarito.CreateGabaritoRequest;
+import br.com.api.ghfluzao.interfaces.GabaritoServiceInterface;
 import br.com.api.ghfluzao.models.Gabarito;
-import br.com.api.ghfluzao.services.gabarito.CreateGabaritoRequest;
-import br.com.api.ghfluzao.services.gabarito.IGabaritoService;
 
 @RestController
 @RequestMapping("/api-v1/gabaritos")
 public class GabaritoController {
     
     @Autowired
-    private IGabaritoService _gabaritoService;
+    private GabaritoServiceInterface _gabaritoService;
 
     @GetMapping("")
     public Iterable<Gabarito> listar(){

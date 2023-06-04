@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.ghfluzao.data.dto.curso.CreateCursoRequest;
+import br.com.api.ghfluzao.interfaces.CursoServiceInterface;
 import br.com.api.ghfluzao.models.Curso;
-import br.com.api.ghfluzao.services.curso.CreateCursoRequest;
-import br.com.api.ghfluzao.services.curso.ICursoService;
 
 @RestController
 @RequestMapping("/api-v1/cursos")
 public class CursoController {
 
     @Autowired
-    private ICursoService _cursoService;
+    private CursoServiceInterface _cursoService;
 
     
     @GetMapping("")

@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.ghfluzao.data.dto.prova.CreateProvaRequest;
+import br.com.api.ghfluzao.data.dto.prova.ProvaEditRequest;
+import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
 import br.com.api.ghfluzao.models.Prova;
-import br.com.api.ghfluzao.services.prova.CreateProvaRequest;
-import br.com.api.ghfluzao.services.prova.IProvaService;
-import br.com.api.ghfluzao.services.prova.ProvaEditRequest;
 
 @RestController
 @RequestMapping("/api-v1/provas")
 public class ProvaController {
     
     @Autowired
-    private IProvaService  _provaService;
+    private ProvaServiceInterface  _provaService;
 
     @PostMapping("")
     public ResponseEntity<String> criarProva(@RequestBody CreateProvaRequest request){

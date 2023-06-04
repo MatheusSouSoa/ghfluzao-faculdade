@@ -9,16 +9,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.ghfluzao.data.dto.opçao.CreateOpcaoRequest;
+import br.com.api.ghfluzao.interfaces.OpcaoServiceInterface;
 import br.com.api.ghfluzao.models.Opcao;
-import br.com.api.ghfluzao.services.opçao.CreateOpcaoRequest;
-import br.com.api.ghfluzao.services.opçao.IOpcaoService;
-
 @RestController
 @RequestMapping("/api-v1/opcoes")
 public class OpcaoController {
     
     @Autowired
-    private IOpcaoService _opcaoService;
+    private OpcaoServiceInterface _opcaoService;
 
     @GetMapping("")
     public Iterable<Opcao> listar(){

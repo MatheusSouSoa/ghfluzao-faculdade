@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.ghfluzao.data.dto.questao.CreateQuestaoRequest;
+import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
 import br.com.api.ghfluzao.models.Questao;
-import br.com.api.ghfluzao.services.questao.CreateQuestaoRequest;
-import br.com.api.ghfluzao.services.questao.IQuestaoService;
 
 @RestController
 @RequestMapping("/api-v1/questoes")
 public class QuestaoController {
     
     @Autowired
-    private IQuestaoService _questaoService;
+    private QuestaoServiceInterface _questaoService;
 
     @GetMapping("")
     public Iterable<Questao> Listar(){

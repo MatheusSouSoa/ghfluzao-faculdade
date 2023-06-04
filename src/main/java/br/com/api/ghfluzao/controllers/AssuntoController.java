@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.ghfluzao.data.dto.assunto.CreateAssuntoRequest;
+import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
 import br.com.api.ghfluzao.models.Assunto;
-import br.com.api.ghfluzao.services.assunto.CreateAssuntoRequest;
-import br.com.api.ghfluzao.services.assunto.IAssuntoService;
 
 @RestController
 @RequestMapping("/api-v1/assuntos")
 public class AssuntoController {
     
     @Autowired
-    private IAssuntoService _assuntoService;
+    private AssuntoServiceInterface _assuntoService;
 
     @GetMapping("")
     public Iterable<Assunto> listar(){
