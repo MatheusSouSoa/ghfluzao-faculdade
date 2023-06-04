@@ -90,6 +90,8 @@ public class ProvaServices implements ProvaServiceInterface {
         }
         SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getCodigo_curso());
 
+        _provaRepository.save(prova);
+
         return ResponseEntity.status(HttpStatus.OK).body(provaResponse);
     }
 

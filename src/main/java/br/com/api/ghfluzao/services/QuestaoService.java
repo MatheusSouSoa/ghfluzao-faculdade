@@ -107,6 +107,8 @@ public class QuestaoService implements QuestaoServiceInterface {
         }
         SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura());
 
+        _questaoRepository.save(questao);
+
         return ResponseEntity.status(HttpStatus.OK).body(questaoResponse);
     }
 

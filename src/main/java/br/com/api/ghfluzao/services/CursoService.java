@@ -71,7 +71,11 @@ public class CursoService implements CursoServiceInterface{
             curso.setNome(request.nome);
         }
 
-        return new ResponseEntity<>(_cursoRepository.save(curso), HttpStatus.OK);
+        SearchCursoResponse cursoResponse = new SearchCursoResponse(curso.getCodigo(), curso.getNome());
+
+        _cursoRepository.save(curso);
+
+        return ResponseEntity.status(HttpStatus.OK).body(cursoResponse);
     }
 
     public ResponseEntity<?> removerCurso(Long CursoCodigo) {

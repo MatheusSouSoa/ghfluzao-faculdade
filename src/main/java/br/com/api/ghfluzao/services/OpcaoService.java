@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.opçao.CreateOpcaoRequest;
+import br.com.api.ghfluzao.data.dto.opçao.SearchOpcaoResponse;
 import br.com.api.ghfluzao.data.repositories.OpcaoRepository;
 import br.com.api.ghfluzao.interfaces.OpcaoServiceInterface;
 import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
@@ -48,4 +49,59 @@ public class OpcaoService implements OpcaoServiceInterface{
         return _opcaoRepository.findAll();
     }
 
+    public ResponseEntity<?> editarOpcao(CreateOpcaoRequest request, Long opcaoCodigo) {
+
+        var opcao = _opcaoRepository.findById(opcaoCodigo).get();
+
+        if (opcao == null) {
+            return new ResponseEntity<>("opcao não existe. :(", HttpStatus.NOT_FOUND);
+        }
+
+        if (request.getLetra() != null) {
+            opcao.setLetra(Character.toLowerCase(request.getLetra()));
+        }
+        if (request.texto != null) {
+            opcao.setTexto(request.texto);
+        }
+        if (request.questaoCodigo != null) {
+            var questao = _questaoService.validarQuestao(request.questaoCodigo);
+            if (questao == null) {
+                return new ResponseEntity<>("Questao não existe. :(", HttpStatus.NOT_FOUND);
+            }
+            if (questao.getOpcoes().contains(opcao)) {
+                return new ResponseEntity<>("Opção ja existe na questão", HttpStatus.ALREADY_REPORTED);
+            }
+            opcao.setCodigo_questao(request.questaoCodigo);
+        }
+        SearchOpcaoResponse opcaoResponse = new SearchOpcaoResponse(opcao.getCodigo(), opcao.getLetra(), opcao.getTexto(), opcao.getCodigo_questao());
+
+        _opcaoRepository.save(opcao);
+
+        return ResponseEntity.status(HttpStatus.OK).body(opcaoResponse);
+    }
+
+    public ResponseEntity<?> removerOpcao(Long opcaoCodigo) {
+
+        var opcao = _opcaoRepository.findById(opcaoCodigo).get();
+
+        if (opcao == null) {
+            return new ResponseEntity<>("opcao não existe.", HttpStatus.NOT_FOUND);
+        }
+
+        _opcaoRepository.delete(opcao);
+        return new ResponseEntity<>("opcao removida com sucesso!", HttpStatus.OK);
+
+    }
+
+    public ResponseEntity<?> selecionarOpcaoPorCodigo(Long codigo) {
+        var opcao = validarOpcao(codigo);
+
+        if (opcao == null) {
+            return new ResponseEntity<>("opcao não encontrada.", HttpStatus.NOT_FOUND);
+        }
+        SearchOpcaoResponse opcaoResponse = new SearchOpcaoResponse(opcao.getCodigo(), opcao.getLetra(),
+                opcao.getTexto(), opcao.getCodigo_questao());
+
+        return ResponseEntity.status(HttpStatus.OK).body(opcaoResponse);
+    }
 }

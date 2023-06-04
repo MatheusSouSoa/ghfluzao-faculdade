@@ -9,4 +9,8 @@ public interface OpcaoServiceInterface {
     ResponseEntity<?> criarOpcao(CreateOpcaoRequest request);
     Opcao validarOpcao(Long codigo);
     Iterable<Opcao> listar();
+    ResponseEntity<?> editarOpcao(CreateOpcaoRequest request, Long opcaoCodigo);
+    ResponseEntity<?> removerOpcao(Long opcaoCodigo);
+    ResponseEntity<?> selecionarOpcaoPorCodigo(Long codigo);
+    
 }

@@ -59,6 +59,8 @@ public class ParteService implements ParteServiceInterface{
         }
         SearchParteResponse parteResponse = new SearchParteResponse(parte.getCodigo() ,request.nome, request.peso_componente, request.peso_nota);
 
+        _parteRepository.save(parte);
+
         return ResponseEntity.status(HttpStatus.OK).body(parteResponse);
     }
 
