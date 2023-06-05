@@ -78,4 +78,9 @@ public class ProvaController {
     public Optional<Prova> montarProva(@RequestParam("montarProva") Long codigoProva){
         return _provaService.montarProva(codigoProva);
     }
+
+    @GetMapping("/aprovar-prova")
+    public ResponseEntity<SearchProvaResponse> aprovaProva(@RequestParam("codigoProva") Long codigoProva){
+        return _provaService.aprovarProva(codigoProva);
+    }
 }

@@ -1,5 +1,6 @@
 package br.com.api.ghfluzao.data.dto.questao;
 
+import br.com.api.ghfluzao.enums.QuestaoStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,5 +15,6 @@ public class SearchQuestaoResponse {
     public String enunciado;
     public Integer numeroQuestao;
     public String urlFigura;
+    public QuestaoStatus situacao;
     
 }

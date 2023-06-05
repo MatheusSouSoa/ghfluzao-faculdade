@@ -3,7 +3,10 @@ package br.com.api.ghfluzao.models;
 import java.util.Calendar;
 import java.util.List;
 
+import br.com.api.ghfluzao.enums.ProvaStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +27,8 @@ public class Prova {
   private Calendar data_criacao = Calendar.getInstance();
   private Calendar data_aplicacao;
   private Long codigo_curso;
+  @Enumerated(EnumType.STRING)
+  private ProvaStatus situacao;
 
   public Prova(int ano, Long codigo_curso){
     this.ano = ano;

@@ -15,6 +15,7 @@ import br.com.api.ghfluzao.data.dto.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.data.dto.prova.ProvaEditRequest;
 import br.com.api.ghfluzao.data.dto.prova.SearchProvaResponse;
 import br.com.api.ghfluzao.data.repositories.ProvaRepository;
+import br.com.api.ghfluzao.enums.ProvaStatus;
 import br.com.api.ghfluzao.interfaces.CursoServiceInterface;
 import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
 import br.com.api.ghfluzao.models.Prova;
@@ -39,7 +40,32 @@ public class ProvaServices implements ProvaServiceInterface {
         if(prova.getAno().equals(null) || prova.getAno().equals(0)){
             return new ResponseEntity<>("Ano invalido",HttpStatus.BAD_REQUEST);
         }
+
+        prova.setSituacao(ProvaStatus.ANALISE);
+
         return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<SearchProvaResponse> aprovarProva(Long codigoProva){
+        var prova = validarProva(codigoProva);
+
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+  
+        if(prova.getSituacao().equals(ProvaStatus.APROVADO)){
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if(prova.getSituacao().equals(ProvaStatus.ANALISE) || prova.getSituacao().equals(ProvaStatus.SUSPENSO) || prova.getSituacao().equals(ProvaStatus.REVISADO) || prova.getSituacao().equals(null)){
+            prova.setSituacao(ProvaStatus.APROVADO);
+            provaResponse.setSituacao(ProvaStatus.APROVADO);
+        }
+        else{
+            return ResponseEntity.badRequest().body(provaResponse);
+        }
+
+        _provaRepository.save(prova);
+
+        return ResponseEntity.ok().body(provaResponse);
     }
 
     public Prova validarProva(Long codigoProva) {
@@ -97,7 +123,7 @@ public class ProvaServices implements ProvaServiceInterface {
             }
             prova.setCodigo_curso(request.getCodigoCurso());
         }
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getCodigo_curso());
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao() ,prova.getCodigo_curso());
 
         _provaRepository.save(prova);
 
@@ -123,16 +149,14 @@ public class ProvaServices implements ProvaServiceInterface {
         if(prova == null){
             return new ResponseEntity<>("Prova não encontrada.", HttpStatus.NOT_FOUND);
         }
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getCodigo_curso());
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(),prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
 
         return ResponseEntity.status(HttpStatus.OK).body(provaResponse);
     }
 
     private List<SearchProvaResponse> mapToSPRList(List<Prova> provas) {
         return provas.stream()
-                .map(prova -> new SearchProvaResponse(
-                        prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(),
-                        prova.getCodigo_curso()))
+                .map(prova -> new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao() ,prova.getCodigo_curso()))
                 .collect(Collectors.toList());
     }
 

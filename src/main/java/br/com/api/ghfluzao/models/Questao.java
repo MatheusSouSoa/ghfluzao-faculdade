@@ -2,8 +2,11 @@ package br.com.api.ghfluzao.models;
 
 import java.util.List;
 
+import br.com.api.ghfluzao.enums.QuestaoStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
@@ -28,6 +31,8 @@ public class Questao {
   private Long codigo_prova;
   private Long codigo_parte;
   private Long codigo_assunto;
+  @Enumerated(EnumType.STRING)
+  private QuestaoStatus situacao;
 
   public Questao(String enunciado, int numeroQuestao, String urlFigura  ,Long codigo_prova, Long codigo_parte, Long codigo_assunto) {
     this.enunciado = enunciado;

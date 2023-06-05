@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.api.ghfluzao.data.dto.questao.CreateQuestaoRequest;
 import br.com.api.ghfluzao.data.dto.questao.SearchQuestaoResponse;
 import br.com.api.ghfluzao.data.repositories.QuestaoRepository;
+import br.com.api.ghfluzao.enums.QuestaoStatus;
 import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
 import br.com.api.ghfluzao.interfaces.ParteServiceInterface;
 import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
@@ -45,6 +46,8 @@ public class QuestaoService implements QuestaoServiceInterface {
         if(questao.getEnunciado().equals(null)){
             return new ResponseEntity<>("Questão invalida", HttpStatus.BAD_REQUEST);
         }
+
+        questao.setSituacao(QuestaoStatus.AGUARDANDO);
 
         return new ResponseEntity<>(_questaoRepository.save(questao), HttpStatus.CREATED);
     }
@@ -109,7 +112,7 @@ public class QuestaoService implements QuestaoServiceInterface {
             
             questao.setCodigo_prova(request.codigoProva);
         }
-        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura());
+        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
 
         _questaoRepository.save(questao);
 
@@ -135,14 +138,14 @@ public class QuestaoService implements QuestaoServiceInterface {
         if (questao == null) {
             return new ResponseEntity<>("questao não encontrada.", HttpStatus.NOT_FOUND);
         }
-        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura());
+        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
 
         return ResponseEntity.status(HttpStatus.OK).body(questaoResponse);
     }
 
     private List<SearchQuestaoResponse> mapToSPRList(List<Questao> questoes) {
         return questoes.stream()
-                .map(questao -> new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura()))
+                .map(questao -> new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao()))
                 .collect(Collectors.toList());
 
     }
