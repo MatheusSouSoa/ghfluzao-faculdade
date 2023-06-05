@@ -134,10 +134,8 @@ public class ProvaServices implements ProvaServiceInterface {
         return mapToSPRList( _provaRepository.findByCodigo_curso(codigoCurso));
     }
 
-    public List<SearchProvaResponse> buscarPorAno(Integer codigoCurso) {
-        return mapToSPRList( _provaRepository.findByAno(codigoCurso));
+    public List<SearchProvaResponse> buscarPorAno(Integer ano) {
+        return mapToSPRList( _provaRepository.findByAno(ano));
     }
-
-    
 
 }
