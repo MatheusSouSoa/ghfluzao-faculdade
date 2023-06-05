@@ -1,6 +1,7 @@
 package br.com.api.ghfluzao.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import br.com.api.ghfluzao.data.dto.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.data.dto.prova.ProvaEditRequest;
 import br.com.api.ghfluzao.data.dto.prova.SearchProvaResponse;
 import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
+import br.com.api.ghfluzao.models.Prova;
 
 @RestController
 @RequestMapping("/api-v1/provas")
@@ -70,5 +72,10 @@ public class ProvaController {
     public ResponseEntity<List<SearchProvaResponse>> buscarPorAno(@RequestParam("ano") Integer ano) {
         List<SearchProvaResponse> provas = _provaService.buscarPorAno(ano);
         return ResponseEntity.ok(provas);
+    }
+
+    @GetMapping("/montar-prova")
+    public Optional<Prova> montarProva(@RequestParam("montarProva") Long codigoProva){
+        return _provaService.montarProva(codigoProva);
     }
 }

@@ -1,5 +1,8 @@
 package br.com.api.ghfluzao.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -38,8 +41,9 @@ public class AssuntoService implements AssuntoServiceInterface {
         return assunto;
     }
 
-    public Iterable<Assunto> listar(){
-        return _assuntoRepository.findAll();
+    public List<SearchAssuntoResponse> listar(){
+        List<Assunto> assuntos = (List<Assunto>) _assuntoRepository.findAll();
+        return mapToSPRList(assuntos);
     }
 
     public ResponseEntity<?> editarAssunto(CreateAssuntoRequest request, Long assuntoCodigo) {
@@ -85,4 +89,9 @@ public class AssuntoService implements AssuntoServiceInterface {
         return ResponseEntity.status(HttpStatus.CREATED).body(assuntoResponse);
     }
 
+    private List<SearchAssuntoResponse> mapToSPRList(List<Assunto> assuntos) {
+        return assuntos.stream()
+                .map(assunto -> new SearchAssuntoResponse(assunto.getCodigo(), assunto.getMateria()))
+                .collect(Collectors.toList());
+    }
 }

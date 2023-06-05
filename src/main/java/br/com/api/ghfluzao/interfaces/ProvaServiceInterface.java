@@ -1,6 +1,7 @@
 package br.com.api.ghfluzao.interfaces;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 
@@ -12,6 +13,7 @@ import br.com.api.ghfluzao.models.Prova;
 public interface ProvaServiceInterface {
   
     ResponseEntity<?> criarProva(CreateProvaRequest request);
+    Optional<Prova> montarProva(Long codigo);
     List<SearchProvaResponse> listar();
     Prova validarProva(Long codigoProva);
     ResponseEntity<?> aplicarProva(Long codigoProva);

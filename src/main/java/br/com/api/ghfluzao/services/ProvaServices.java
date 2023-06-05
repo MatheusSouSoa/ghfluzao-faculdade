@@ -2,6 +2,7 @@ package br.com.api.ghfluzao.services;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,11 @@ public class ProvaServices implements ProvaServiceInterface {
             throw new EmptyResultDataAccessException(0);
         }
 
+        return prova;
+    }
+
+    public Optional<Prova> montarProva(Long codigo){
+        var prova = _provaRepository.findById(codigo);
         return prova;
     }
 

@@ -1,5 +1,7 @@
 package br.com.api.ghfluzao.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.curso.CreateCursoRequest;
+import br.com.api.ghfluzao.data.dto.curso.SearchCursoResponse;
 import br.com.api.ghfluzao.interfaces.CursoServiceInterface;
-import br.com.api.ghfluzao.models.Curso;
 
 @RestController
 @RequestMapping("/api-v1/cursos")
@@ -25,7 +27,7 @@ public class CursoController {
 
     
     @GetMapping("")
-    public Iterable<Curso> listar(){
+    public List<SearchCursoResponse> listar(){
         return _cursoService.listar();
     }
 

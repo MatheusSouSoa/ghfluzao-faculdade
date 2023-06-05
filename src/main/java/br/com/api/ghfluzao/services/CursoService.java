@@ -1,5 +1,8 @@
 package br.com.api.ghfluzao.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -30,10 +33,6 @@ public class CursoService implements CursoServiceInterface{
 
     
     public Curso validarCurso(String cursoNome){
-        
-        // if(!_cursoRepository.findByNome(cursoNome).isEmpty()){
-        //     throw new EmptyResultDataAccessException(cursoNome, 0);
-        // }
 
         var curso = _cursoRepository.findByNome(cursoNome).get(0);
 
@@ -55,8 +54,9 @@ public class CursoService implements CursoServiceInterface{
         return curso;
     }
 
-    public Iterable<Curso> listar(){
-        return _cursoRepository.findAll();
+    public List<SearchCursoResponse> listar(){
+        List<Curso> cursos = (List<Curso>) _cursoRepository.findAll();
+        return mapToSPRList(cursos);
     }
 
     public ResponseEntity<?> editarCurso(CreateCursoRequest request, Long cursoCodigo) {
@@ -100,6 +100,12 @@ public class CursoService implements CursoServiceInterface{
         SearchCursoResponse cursoResponse = new SearchCursoResponse(curso.getCodigo(),curso.getNome());
 
         return ResponseEntity.status(HttpStatus.OK).body(cursoResponse);
+    }
+
+    private List<SearchCursoResponse> mapToSPRList(List<Curso> cursos) {
+        return cursos.stream()
+                .map(curso -> new SearchCursoResponse(curso.getCodigo(),curso.getNome()))
+                .collect(Collectors.toList());
     }
 
 }

@@ -1,5 +1,8 @@
 package br.com.api.ghfluzao.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -36,8 +39,9 @@ public class ParteService implements ParteServiceInterface{
         return parte;
     }
 
-    public Iterable<Parte> listar(){
-        return _parteRepository.findAll();
+    public List<SearchParteResponse> listar(){
+        List<Parte> partes = (List<Parte>) _parteRepository.findAll();
+        return mapToSPRList(partes);
     }
 
     public ResponseEntity<?> editarParte(CreateParteRequest request, Long ParteCodigo) {
@@ -88,4 +92,9 @@ public class ParteService implements ParteServiceInterface{
         return ResponseEntity.status(HttpStatus.CREATED).body(parteResponse);
     }
 
+     private List<SearchParteResponse> mapToSPRList(List<Parte> partes) {
+        return partes.stream()
+                .map(parte -> new SearchParteResponse(parte.getCodigo(),parte.getNome(),parte.getPeso_componente(), parte.getPeso_nota()))
+                .collect(Collectors.toList());
+    }
 }

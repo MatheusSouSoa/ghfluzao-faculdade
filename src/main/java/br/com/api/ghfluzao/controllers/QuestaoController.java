@@ -51,4 +51,10 @@ public class QuestaoController {
     public ResponseEntity<?> buscarQuestaoPeloCodigo(@PathVariable Long codigoQuestao) {
         return _questaoService.selecionarQuestaoPorCodigo(codigoQuestao);
     }
+
+    @GetMapping("/questao-por-prova/{codigoProva}")
+    public ResponseEntity<List<SearchQuestaoResponse>> buscarQuestaoPorProva(@PathVariable Long codigoProva) {
+            List<SearchQuestaoResponse> questoes = _questaoService.findByCodigo_prova(codigoProva);
+            return ResponseEntity.ok(questoes);
+        }
 }

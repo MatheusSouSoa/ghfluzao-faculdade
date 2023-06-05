@@ -1,6 +1,8 @@
 package br.com.api.ghfluzao.controllers;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.assunto.CreateAssuntoRequest;
+import br.com.api.ghfluzao.data.dto.assunto.SearchAssuntoResponse;
 import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
-import br.com.api.ghfluzao.models.Assunto;
 
 @RestController
 @RequestMapping("/api-v1/assuntos")
@@ -25,7 +27,7 @@ public class AssuntoController {
     private AssuntoServiceInterface _assuntoService;
 
     @GetMapping("")
-    public Iterable<Assunto> listar(){
+    public List<SearchAssuntoResponse> listar(){
         return _assuntoService.listar();
     }
 

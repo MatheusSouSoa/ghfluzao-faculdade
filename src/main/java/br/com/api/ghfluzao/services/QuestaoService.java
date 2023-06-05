@@ -147,6 +147,10 @@ public class QuestaoService implements QuestaoServiceInterface {
 
     }
 
+    public List<SearchQuestaoResponse> findByCodigo_prova(Long codigoProva){
+        return mapToSPRList(_questaoRepository.findByCodigo_prova(codigoProva));
+    }
+
     // private List<SearchProvaResponse> mapToSPRList(List<Prova> provas) {
     //     return provas.stream()
     //             .map(prova -> new SearchProvaResponse(
