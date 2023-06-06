@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.questao.CreateQuestaoRequest;
@@ -56,5 +57,35 @@ public class QuestaoController {
     public ResponseEntity<List<SearchQuestaoResponse>> buscarQuestaoPorProva(@PathVariable Long codigoProva) {
             List<SearchQuestaoResponse> questoes = _questaoService.findByCodigo_prova(codigoProva);
             return ResponseEntity.ok(questoes);
-        }
+    }
+
+    @GetMapping("/aprovar-questao")
+    public ResponseEntity<SearchQuestaoResponse> aprovaQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+        return _questaoService.aprovarQuestao(codigoQuestao);
+    }
+
+    @GetMapping("/recusar-questao")
+    public ResponseEntity<SearchQuestaoResponse> recusarProva(@RequestParam("codigoQuestao") Long codigoQuestao) {
+        return _questaoService.recusarQuestao(codigoQuestao);
+    }
+
+    @GetMapping("/suspender-questao")
+    public ResponseEntity<SearchQuestaoResponse> suspenderQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+        return _questaoService.suspenderQuestao(codigoQuestao);
+    }
+
+    @GetMapping("/revisar-questao")
+    public ResponseEntity<SearchQuestaoResponse> revisarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+        return _questaoService.revisarQuestao(codigoQuestao);
+    }
+
+    @GetMapping("/validar-questao")
+    public ResponseEntity<SearchQuestaoResponse> validarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+        return _questaoService.aprontarQuestao(codigoQuestao);
+    }
+
+    @GetMapping("/esperar-questao")
+    public ResponseEntity<SearchQuestaoResponse> esperarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+        return _questaoService.esperarQuestao(codigoQuestao);
+    }
 }

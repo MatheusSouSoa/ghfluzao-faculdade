@@ -16,11 +16,15 @@ public interface ProvaServiceInterface {
     Optional<Prova> montarProva(Long codigo);
     List<SearchProvaResponse> listar();
     Prova validarProva(Long codigoProva);
-    ResponseEntity<?> aplicarProva(Long codigoProva);
     ResponseEntity<?> editarProva(ProvaEditRequest request, Long provaCodigo);
     ResponseEntity<?> removerProva(Long provaCodigo);
     ResponseEntity<?> selecionarProvaPorCodigo(Long codigo);
     List<SearchProvaResponse> buscarPorCodigoCurso(Long codigoCurso);
     List<SearchProvaResponse> buscarPorAno(Integer codigoCurso);
     ResponseEntity<SearchProvaResponse> aprovarProva(Long codigoProva);
+    ResponseEntity<SearchProvaResponse> recusarProva(Long codigoProva);
+    ResponseEntity<SearchProvaResponse> suspenderProva(Long codigoProva);
+    ResponseEntity<SearchProvaResponse> revisarProva(Long codigoProva);
+    ResponseEntity<SearchProvaResponse> esperarProva(Long codigoProva);
+    ResponseEntity<SearchProvaResponse> aplicarProva(Long codigoProva);
 }

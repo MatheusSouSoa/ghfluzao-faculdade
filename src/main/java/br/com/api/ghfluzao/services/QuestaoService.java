@@ -47,7 +47,7 @@ public class QuestaoService implements QuestaoServiceInterface {
             return new ResponseEntity<>("Questão invalida", HttpStatus.BAD_REQUEST);
         }
 
-        questao.setSituacao(QuestaoStatus.AGUARDANDO);
+        questao.setSituacao(QuestaoStatus.ANALISE);
 
         return new ResponseEntity<>(_questaoRepository.save(questao), HttpStatus.CREATED);
     }
@@ -60,6 +60,127 @@ public class QuestaoService implements QuestaoServiceInterface {
         }
 
         return questao;
+    }
+
+    public ResponseEntity<SearchQuestaoResponse> aprovarQuestao(Long codigoQuestao) {
+        var questao = validarQuestao(codigoQuestao);
+
+        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+
+        if (questao.getSituacao().equals(QuestaoStatus.APROVADO)) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if (questao.getSituacao().equals(QuestaoStatus.ANALISE) || questao.getSituacao().equals(QuestaoStatus.SUPENSO) || questao.getSituacao().equals(QuestaoStatus.REVISADO) || questao.getSituacao().equals(null)) {
+            questao.setSituacao(QuestaoStatus.APROVADO);
+            questaoResponse.setSituacao(QuestaoStatus.APROVADO);
+        } else {
+            return ResponseEntity.badRequest().body(questaoResponse);
+        }
+
+        _questaoRepository.save(questao);
+
+        return ResponseEntity.ok().body(questaoResponse);
+    }
+
+    public ResponseEntity<SearchQuestaoResponse> recusarQuestao(Long codigoQuestao) {
+        var questao = validarQuestao(codigoQuestao);
+
+        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(),questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+
+        if (questao.getSituacao().equals(QuestaoStatus.RECUSADO)) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if (questao.getSituacao().equals(QuestaoStatus.ANALISE) || questao.getSituacao().equals(null)) {
+            questao.setSituacao(QuestaoStatus.RECUSADO);
+            questaoResponse.setSituacao(QuestaoStatus.RECUSADO);
+        } else {
+            return ResponseEntity.badRequest().body(questaoResponse);
+        }
+
+        _questaoRepository.save(questao);
+
+        return ResponseEntity.ok().body(questaoResponse);
+    }
+
+    public ResponseEntity<SearchQuestaoResponse> suspenderQuestao(Long codigoQuestao) {
+        var questao = validarQuestao(codigoQuestao);
+
+        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        if (questao.getSituacao().equals(QuestaoStatus.SUPENSO)) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if (questao.getSituacao().equals(QuestaoStatus.APROVADO) || questao.getSituacao().equals(QuestaoStatus.REVISADO)) {
+
+            questao.setSituacao(QuestaoStatus.SUPENSO);
+            questaoResponse.setSituacao(QuestaoStatus.SUPENSO);
+            _questaoRepository.save(questao);
+            return ResponseEntity.ok().body(questaoResponse);
+
+        }
+        return ResponseEntity.badRequest().body(questaoResponse);
+    }
+
+    public ResponseEntity<SearchQuestaoResponse> revisarQuestao(Long codigoQuestao) {
+        var questao = validarQuestao(codigoQuestao);
+
+        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        
+        if (questao.getSituacao().equals(QuestaoStatus.REVISADO)) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if (questao.getSituacao().equals(QuestaoStatus.APROVADO) || questao.getSituacao().equals(QuestaoStatus.SUPENSO) || questao.getSituacao().equals(QuestaoStatus.AGUARDANDO)) {
+
+            questao.setSituacao(QuestaoStatus.REVISADO);
+            questaoResponse.setSituacao(QuestaoStatus.REVISADO);
+            _questaoRepository.save(questao);
+            return ResponseEntity.ok().body(questaoResponse);
+
+        }
+        return ResponseEntity.badRequest().body(questaoResponse);
+    }
+
+    public ResponseEntity<SearchQuestaoResponse> esperarQuestao(Long codigoQuestao) {
+        var questao = validarQuestao(codigoQuestao);
+
+        SearchQuestaoResponse QuestaoResponse = new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+
+        if (questao.getSituacao().equals(QuestaoStatus.AGUARDANDO)) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if (questao.getSituacao().equals(QuestaoStatus.REVISADO)) {
+
+            questao.setSituacao(QuestaoStatus.AGUARDANDO);
+            QuestaoResponse.setSituacao(QuestaoStatus.AGUARDANDO);
+            _questaoRepository.save(questao);
+            return ResponseEntity.ok().body(QuestaoResponse);
+
+        }
+        return ResponseEntity.badRequest().body(QuestaoResponse);
+    }
+
+    public ResponseEntity<SearchQuestaoResponse> aprontarQuestao(Long codigoQuestao) {
+
+        var questao = validarQuestao(codigoQuestao);
+
+        SearchQuestaoResponse QuestaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+
+        if (questao.getSituacao().equals(QuestaoStatus.APTO)) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if (questao.getSituacao().equals(QuestaoStatus.AGUARDANDO)) {
+
+            questao.setSituacao(QuestaoStatus.APTO);
+            QuestaoResponse.setSituacao(QuestaoStatus.APTO);
+            _questaoRepository.save(questao);
+            return ResponseEntity.ok().body(QuestaoResponse);
+        }
+        return ResponseEntity.badRequest().body(QuestaoResponse);
     }
 
     public List<SearchQuestaoResponse> listar(){
@@ -154,11 +275,4 @@ public class QuestaoService implements QuestaoServiceInterface {
         return mapToSPRList(_questaoRepository.findByCodigo_prova(codigoProva));
     }
 
-    // private List<SearchProvaResponse> mapToSPRList(List<Prova> provas) {
-    //     return provas.stream()
-    //             .map(prova -> new SearchProvaResponse(
-    //                     prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(),
-    //                     prova.getCodigo_curso()))
-    //             .collect(Collectors.toList());
-    // }
 }

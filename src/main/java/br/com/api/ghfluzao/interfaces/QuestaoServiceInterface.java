@@ -10,11 +10,17 @@ import br.com.api.ghfluzao.models.Questao;
 
 public interface QuestaoServiceInterface {
 
-    List<SearchQuestaoResponse> listar();
     Questao validarQuestao(Long codigo);
     ResponseEntity<?> criarQuestao(CreateQuestaoRequest request);
     ResponseEntity<?> editarQuestao(CreateQuestaoRequest request, Long questaoCodigo);
     ResponseEntity<?> removerQuestao(Long questaoCodigo);
     ResponseEntity<?> selecionarQuestaoPorCodigo(Long codigo);
+    List<SearchQuestaoResponse> listar();
     List<SearchQuestaoResponse> findByCodigo_prova(Long codigoProva);
+    ResponseEntity<SearchQuestaoResponse> aprovarQuestao(Long codigoQuestao);
+    ResponseEntity<SearchQuestaoResponse> recusarQuestao(Long codigoQuestao);
+    ResponseEntity<SearchQuestaoResponse> suspenderQuestao(Long codigoQuestao);
+    ResponseEntity<SearchQuestaoResponse> revisarQuestao(Long codigoQuestao);
+    ResponseEntity<SearchQuestaoResponse> esperarQuestao(Long codigoQuestao);
+    ResponseEntity<SearchQuestaoResponse> aprontarQuestao(Long codigoQuestao);
 }

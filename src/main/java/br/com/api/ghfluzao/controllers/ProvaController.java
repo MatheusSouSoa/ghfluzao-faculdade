@@ -42,45 +42,66 @@ public class ProvaController {
         return _provaService.listar();
     }
 
-    @PutMapping("/aplicar-prova/{codigoProva}")
-    public ResponseEntity<?> aplicarProva(@PathVariable Long codigoProva){
-        return _provaService.aplicarProva(codigoProva);
-    }
-
+    
     @PutMapping("/editar-prova/{provaCodigo}")
     public ResponseEntity<?> editarProva(@PathVariable Long provaCodigo, @RequestBody ProvaEditRequest request){
         return _provaService.editarProva(request, provaCodigo);
     }
-
+    
     @DeleteMapping("/deletar-prova/{codigoProva}")
     public ResponseEntity<?> removerProva(@PathVariable Long codigoProva){
         return _provaService.removerProva(codigoProva);
     }
-
+    
     @GetMapping("/buscar-prova/{codigoProva}")
     public ResponseEntity<?> buscarProvaPeloCodigo(@PathVariable Long codigoProva){
         return _provaService.selecionarProvaPorCodigo(codigoProva);
     }
-
+    
     @GetMapping("/buscar-por-curso")
     public ResponseEntity<List<SearchProvaResponse>> buscarPorCodigoCurso(@RequestParam("codigoCurso") Long codigoCurso) {
         List<SearchProvaResponse> provas = _provaService.buscarPorCodigoCurso(codigoCurso);
         return ResponseEntity.ok(provas);
     }
-
+    
     @GetMapping("/buscar-por-ano")
     public ResponseEntity<List<SearchProvaResponse>> buscarPorAno(@RequestParam("ano") Integer ano) {
         List<SearchProvaResponse> provas = _provaService.buscarPorAno(ano);
         return ResponseEntity.ok(provas);
     }
-
+    
     @GetMapping("/montar-prova")
     public Optional<Prova> montarProva(@RequestParam("montarProva") Long codigoProva){
         return _provaService.montarProva(codigoProva);
     }
-
+    
     @GetMapping("/aprovar-prova")
     public ResponseEntity<SearchProvaResponse> aprovaProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.aprovarProva(codigoProva);
+    }
+    
+    @GetMapping("/recusar-prova")
+    public ResponseEntity<SearchProvaResponse> recusarProva(@RequestParam("codigoProva") Long codigoProva){
+        return _provaService.recusarProva(codigoProva);
+    }
+
+    @GetMapping("/suspender-prova")
+    public ResponseEntity<SearchProvaResponse> suspenderProva(@RequestParam("codigoProva") Long codigoProva){
+        return _provaService.suspenderProva(codigoProva);
+    }
+
+    @GetMapping("/revisar-prova")
+    public ResponseEntity<SearchProvaResponse> revisarProva(@RequestParam("codigoProva") Long codigoProva){
+        return _provaService.revisarProva(codigoProva);
+    }
+
+    @GetMapping("/esperar-prova")
+    public ResponseEntity<SearchProvaResponse> esperarProva(@RequestParam("codigoProva") Long codigoProva){
+        return _provaService.esperarProva(codigoProva);
+    }
+
+    @PutMapping("/aplicar-prova/{codigoProva}")
+    public ResponseEntity<SearchProvaResponse> aplicarProva(@PathVariable Long codigoProva){
+        return _provaService.aplicarProva(codigoProva);
     }
 }

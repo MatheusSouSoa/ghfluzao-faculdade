@@ -68,6 +68,112 @@ public class ProvaServices implements ProvaServiceInterface {
         return ResponseEntity.ok().body(provaResponse);
     }
 
+    public ResponseEntity<SearchProvaResponse> recusarProva(Long codigoProva){
+        var prova = validarProva(codigoProva);
+
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+  
+        if(prova.getSituacao().equals(ProvaStatus.RECUSADO)){
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if(prova.getSituacao().equals(ProvaStatus.ANALISE) || prova.getSituacao().equals(null)){
+            prova.setSituacao(ProvaStatus.RECUSADO);
+            provaResponse.setSituacao(ProvaStatus.RECUSADO);
+        }
+        else{
+            return ResponseEntity.badRequest().body(provaResponse);
+        }
+
+        _provaRepository.save(prova);
+
+        return ResponseEntity.ok().body(provaResponse);
+    }
+
+    public ResponseEntity<SearchProvaResponse> suspenderProva(Long codigoProva){
+        var prova = validarProva(codigoProva);
+
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+  
+        if(prova.getSituacao().equals(ProvaStatus.SUSPENSO)){
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if(prova.getSituacao().equals(ProvaStatus.APROVADO) || prova.getSituacao().equals(ProvaStatus.REVISADO)){
+            
+            prova.setSituacao(ProvaStatus.SUSPENSO);
+            provaResponse.setSituacao(ProvaStatus.SUSPENSO);
+            _provaRepository.save(prova);
+            return ResponseEntity.ok().body(provaResponse);
+
+        }
+        return ResponseEntity.badRequest().body(provaResponse);
+    }
+
+    public ResponseEntity<SearchProvaResponse> revisarProva(Long codigoProva){
+        var prova = validarProva(codigoProva);
+
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+  
+        if(prova.getSituacao().equals(ProvaStatus.REVISADO)){
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if(prova.getSituacao().equals(ProvaStatus.APROVADO) || prova.getSituacao().equals(ProvaStatus.SUSPENSO)){
+
+            prova.setSituacao(ProvaStatus.REVISADO);
+            provaResponse.setSituacao(ProvaStatus.REVISADO);
+            _provaRepository.save(prova);
+            return ResponseEntity.ok().body(provaResponse);
+
+        }
+        return ResponseEntity.badRequest().body(provaResponse);
+    }
+
+    public ResponseEntity<SearchProvaResponse> esperarProva(Long codigoProva){
+        var prova = validarProva(codigoProva);
+
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+  
+        if(prova.getSituacao().equals(ProvaStatus.PRONTA)){
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if(prova.getSituacao().equals(ProvaStatus.REVISADO)){
+
+            prova.setSituacao(ProvaStatus.PRONTA);
+            provaResponse.setSituacao(ProvaStatus.PRONTA);
+            _provaRepository.save(prova);
+            return ResponseEntity.ok().body(provaResponse);
+
+        }
+        return ResponseEntity.badRequest().body(provaResponse);
+    }
+
+    public ResponseEntity<SearchProvaResponse> aplicarProva(Long codigoProva) {
+
+        var prova = validarProva(codigoProva);
+
+        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        
+        if (prova.getSituacao().equals(ProvaStatus.APLICADA)) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        if (prova.getSituacao().equals(ProvaStatus.PRONTA)) {
+
+            prova.setSituacao(ProvaStatus.APLICADA);
+            provaResponse.setSituacao(ProvaStatus.APLICADA);
+            if(prova.getData_aplicacao() == null){
+                prova.setData_aplicacao(Calendar.getInstance());
+                provaResponse.setDataAplicacao(prova.getData_aplicacao());
+            }
+            _provaRepository.save(prova);
+            return ResponseEntity.ok().body(provaResponse);
+        }
+        return ResponseEntity.badRequest().body(provaResponse);
+    }
+
     public Prova validarProva(Long codigoProva) {
 
         var prova = _provaRepository.findById(codigoProva).get();
@@ -89,17 +195,6 @@ public class ProvaServices implements ProvaServiceInterface {
         return mapToSPRList(provas);
     }
 
-    public ResponseEntity<?> aplicarProva(Long codigoProva) {
-
-        var prova = _provaRepository.findById(codigoProva).get();
-        
-        if(_provaRepository.countByCodigo(codigoProva) == 0) {
-            return new ResponseEntity<>("Prova não existe. :(", HttpStatus.NOT_FOUND);
-        }
-        prova.setData_aplicacao(Calendar.getInstance());
-        
-        return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.OK);
-    }
 
 
     public ResponseEntity<?> editarProva(ProvaEditRequest request, Long provaCodigo) {
