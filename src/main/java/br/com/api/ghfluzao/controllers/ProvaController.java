@@ -23,7 +23,7 @@ import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
 import br.com.api.ghfluzao.models.Prova;
 
 @RestController
-@RequestMapping("/api-v1/provas")
+@RequestMapping("/api-v2/provas")
 public class ProvaController {
     
     @Autowired
@@ -75,27 +75,27 @@ public class ProvaController {
         return _provaService.montarProva(codigoProva);
     }
     
-    @GetMapping("/aprovar-prova")
+    @PutMapping("/aprovar-prova")
     public ResponseEntity<SearchProvaResponse> aprovaProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.aprovarProva(codigoProva);
     }
     
-    @GetMapping("/recusar-prova")
+    @PutMapping("/recusar-prova")
     public ResponseEntity<SearchProvaResponse> recusarProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.recusarProva(codigoProva);
     }
 
-    @GetMapping("/suspender-prova")
+    @PutMapping("/suspender-prova")
     public ResponseEntity<SearchProvaResponse> suspenderProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.suspenderProva(codigoProva);
     }
 
-    @GetMapping("/revisar-prova")
+    @PutMapping("/revisar-prova")
     public ResponseEntity<SearchProvaResponse> revisarProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.revisarProva(codigoProva);
     }
 
-    @GetMapping("/esperar-prova")
+    @PutMapping("/esperar-prova")
     public ResponseEntity<SearchProvaResponse> esperarProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.esperarProva(codigoProva);
     }

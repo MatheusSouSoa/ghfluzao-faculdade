@@ -20,7 +20,7 @@ import br.com.api.ghfluzao.data.dto.questao.SearchQuestaoResponse;
 import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
 
 @RestController
-@RequestMapping("/api-v1/questoes")
+@RequestMapping("/api-v2/questoes")
 public class QuestaoController {
     
     @Autowired
@@ -59,32 +59,32 @@ public class QuestaoController {
             return ResponseEntity.ok(questoes);
     }
 
-    @GetMapping("/aprovar-questao")
+    @PutMapping("/aprovar-questao")
     public ResponseEntity<SearchQuestaoResponse> aprovaQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.aprovarQuestao(codigoQuestao);
     }
 
-    @GetMapping("/recusar-questao")
+    @PutMapping("/recusar-questao")
     public ResponseEntity<SearchQuestaoResponse> recusarProva(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.recusarQuestao(codigoQuestao);
     }
 
-    @GetMapping("/suspender-questao")
+    @PutMapping("/suspender-questao")
     public ResponseEntity<SearchQuestaoResponse> suspenderQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.suspenderQuestao(codigoQuestao);
     }
 
-    @GetMapping("/revisar-questao")
+    @PutMapping("/revisar-questao")
     public ResponseEntity<SearchQuestaoResponse> revisarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.revisarQuestao(codigoQuestao);
     }
 
-    @GetMapping("/validar-questao")
+    @PutMapping("/validar-questao")
     public ResponseEntity<SearchQuestaoResponse> validarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.aprontarQuestao(codigoQuestao);
     }
 
-    @GetMapping("/esperar-questao")
+    @PutMapping("/esperar-questao")
     public ResponseEntity<SearchQuestaoResponse> esperarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.esperarQuestao(codigoQuestao);
     }

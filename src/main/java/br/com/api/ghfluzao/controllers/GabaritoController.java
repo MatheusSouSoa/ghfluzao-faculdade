@@ -17,7 +17,7 @@ import br.com.api.ghfluzao.interfaces.GabaritoServiceInterface;
 import br.com.api.ghfluzao.models.Gabarito;
 
 @RestController
-@RequestMapping("/api-v1/gabaritos")
+@RequestMapping("/api-v2/gabaritos")
 public class GabaritoController {
     
     @Autowired

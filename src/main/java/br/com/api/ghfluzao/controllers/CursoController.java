@@ -19,7 +19,7 @@ import br.com.api.ghfluzao.data.dto.curso.SearchCursoResponse;
 import br.com.api.ghfluzao.interfaces.CursoServiceInterface;
 
 @RestController
-@RequestMapping("/api-v1/cursos")
+@RequestMapping("/api-v2/cursos")
 public class CursoController {
 
     @Autowired

@@ -33,12 +33,12 @@ public class ProvaServices implements ProvaServiceInterface {
         var curso = _cursoService.validarCurso(request.cursoNome);
 
         if(curso == null || request.getCursoNome().equals(null)){
-            return new ResponseEntity<>("Curso invalido",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Curso invalido", HttpStatus.BAD_REQUEST);
         }
         var prova = new Prova(request.getAno(),curso.getCodigo());
 
         if(prova.getAno().equals(null) || prova.getAno().equals(0)){
-            return new ResponseEntity<>("Ano invalido",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Ano invalido", HttpStatus.BAD_REQUEST);
         }
 
         prova.setSituacao(ProvaStatus.ANALISE);
@@ -199,7 +199,7 @@ public class ProvaServices implements ProvaServiceInterface {
 
     public ResponseEntity<?> editarProva(ProvaEditRequest request, Long provaCodigo) {
 
-        var prova = _provaRepository.findById(provaCodigo).get();
+        var prova = validarProva(provaCodigo);
 
         if(prova == null) {
             return new ResponseEntity<>("Prova não existe. :(", HttpStatus.NOT_FOUND);
