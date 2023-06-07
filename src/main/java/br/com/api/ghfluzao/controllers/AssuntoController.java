@@ -20,7 +20,7 @@ import br.com.api.ghfluzao.data.dto.assunto.SearchAssuntoResponse;
 import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
 
 @RestController
-@RequestMapping("/api-v2/assuntos")
+@RequestMapping("/api-v3/assuntos")
 public class AssuntoController {
     
     @Autowired

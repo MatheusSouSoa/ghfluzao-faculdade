@@ -16,7 +16,7 @@ import br.com.api.ghfluzao.data.dto.opçao.CreateOpcaoRequest;
 import br.com.api.ghfluzao.interfaces.OpcaoServiceInterface;
 import br.com.api.ghfluzao.models.Opcao;
 @RestController
-@RequestMapping("/api-v2/opcoes")
+@RequestMapping("/api-v3/opcoes")
 public class OpcaoController {
     
     @Autowired

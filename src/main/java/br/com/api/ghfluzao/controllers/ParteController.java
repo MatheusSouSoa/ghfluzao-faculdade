@@ -19,7 +19,7 @@ import br.com.api.ghfluzao.data.dto.parte.SearchParteResponse;
 import br.com.api.ghfluzao.interfaces.ParteServiceInterface;
 
 @RestController
-@RequestMapping("/api-v2/partes")
+@RequestMapping("/api-v3/partes")
 public class ParteController {
     
     @Autowired

@@ -20,7 +20,7 @@ import br.com.api.ghfluzao.data.dto.questao.SearchQuestaoResponse;
 import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
 
 @RestController
-@RequestMapping("/api-v2/questoes")
+@RequestMapping("/api-v3/questoes")
 public class QuestaoController {
     
     @Autowired

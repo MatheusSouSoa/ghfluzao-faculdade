@@ -23,7 +23,7 @@ import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
 import br.com.api.ghfluzao.models.Prova;
 
 @RestController
-@RequestMapping("/api-v2/provas")
+@RequestMapping("/api-v3/provas")
 public class ProvaController {
     
     @Autowired

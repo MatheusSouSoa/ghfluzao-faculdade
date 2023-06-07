@@ -22,11 +22,14 @@ public class Assunto {
   private Long codigo;
   private String materia;
 
-  public Assunto(String materia) {
-    this.materia = materia;
-  }
-
   @OneToMany
   @JoinColumn(name = "codigo_assunto")
   private List<Questao> questoes;
+  @OneToMany
+  @JoinColumn(name = "codigo_assunto")
+  private List<Usuario> usuarios;
+  
+  public Assunto(String materia) {
+    this.materia = materia;
+  }
 }
