@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.ghfluzao.data.dto.usuario.FindUsuarioResponse;
+import br.com.api.ghfluzao.data.dto.usuario.CreateUsuarioRequest;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
 import br.com.api.ghfluzao.models.Usuario;
 
@@ -21,12 +21,12 @@ public class UsuarioController {
     private UsuarioServiceInterface usuarioServiceInterface;
 
     @PostMapping("")
-    private ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario){
-        return usuarioServiceInterface.criarUsuario(usuario);
+    private ResponseEntity<?> criarUsuario(@RequestBody CreateUsuarioRequest request){
+        return usuarioServiceInterface.criarUsuario(request);
     }
 
     @GetMapping("/buscar")
-    private ResponseEntity<FindUsuarioResponse> pegarUsuariosPorEmail(@RequestParam("email") String email){
+    private Usuario pegarUsuariosPorEmail(@RequestParam("email") String email){
         return usuarioServiceInterface.pegarUsuarioPorEmail(email);
     }
 

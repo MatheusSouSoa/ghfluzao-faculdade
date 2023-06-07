@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.curso.CreateCursoRequest;
-import br.com.api.ghfluzao.data.dto.curso.SearchCursoResponse;
+import br.com.api.ghfluzao.data.dto.curso.FindCursoResponse;
 import br.com.api.ghfluzao.data.repositories.CursoRepository;
 import br.com.api.ghfluzao.interfaces.CursoServiceInterface;
 import br.com.api.ghfluzao.models.Curso;
@@ -54,7 +54,7 @@ public class CursoService implements CursoServiceInterface{
         return curso;
     }
 
-    public List<SearchCursoResponse> listar(){
+    public List<FindCursoResponse> listar(){
         List<Curso> cursos = (List<Curso>) _cursoRepository.findAll();
         return mapToSPRList(cursos);
     }
@@ -71,7 +71,7 @@ public class CursoService implements CursoServiceInterface{
             curso.setNome(request.nome);
         }
 
-        SearchCursoResponse cursoResponse = new SearchCursoResponse(curso.getCodigo(), curso.getNome());
+        FindCursoResponse cursoResponse = new FindCursoResponse(curso.getCodigo(), curso.getNome());
 
         _cursoRepository.save(curso);
 
@@ -97,14 +97,14 @@ public class CursoService implements CursoServiceInterface{
         if (curso == null) {
             return new ResponseEntity<>("Curso não encontrado.", HttpStatus.NOT_FOUND);
         }
-        SearchCursoResponse cursoResponse = new SearchCursoResponse(curso.getCodigo(),curso.getNome());
+        FindCursoResponse cursoResponse = new FindCursoResponse(curso.getCodigo(),curso.getNome());
 
         return ResponseEntity.status(HttpStatus.OK).body(cursoResponse);
     }
 
-    private List<SearchCursoResponse> mapToSPRList(List<Curso> cursos) {
+    private List<FindCursoResponse> mapToSPRList(List<Curso> cursos) {
         return cursos.stream()
-                .map(curso -> new SearchCursoResponse(curso.getCodigo(),curso.getNome()))
+                .map(curso -> new FindCursoResponse(curso.getCodigo(),curso.getNome()))
                 .collect(Collectors.toList());
     }
 

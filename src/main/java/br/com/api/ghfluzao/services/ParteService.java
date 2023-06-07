@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.parte.CreateParteRequest;
-import br.com.api.ghfluzao.data.dto.parte.SearchParteResponse;
+import br.com.api.ghfluzao.data.dto.parte.FindParteResponse;
 import br.com.api.ghfluzao.data.repositories.ParteRepository;
 import br.com.api.ghfluzao.interfaces.ParteServiceInterface;
 import br.com.api.ghfluzao.models.Parte;
@@ -39,7 +39,7 @@ public class ParteService implements ParteServiceInterface{
         return parte;
     }
 
-    public List<SearchParteResponse> listar(){
+    public List<FindParteResponse> listar(){
         List<Parte> partes = (List<Parte>) _parteRepository.findAll();
         return mapToSPRList(partes);
     }
@@ -61,7 +61,7 @@ public class ParteService implements ParteServiceInterface{
         if(request.peso_nota != null) {
             parte.setPeso_nota(request.peso_nota);
         }
-        SearchParteResponse parteResponse = new SearchParteResponse(parte.getCodigo() ,request.nome, request.peso_componente, request.peso_nota);
+        FindParteResponse parteResponse = new FindParteResponse(parte.getCodigo() ,request.nome, request.peso_componente, request.peso_nota);
 
         _parteRepository.save(parte);
 
@@ -87,14 +87,14 @@ public class ParteService implements ParteServiceInterface{
         if (parte == null) {
             return new ResponseEntity<>("Parte não encontrado.", HttpStatus.NOT_FOUND);
         }
-        SearchParteResponse parteResponse = new SearchParteResponse(parte.getCodigo(), parte.getNome(), parte.getPeso_componente(), parte.getPeso_nota());
+        FindParteResponse parteResponse = new FindParteResponse(parte.getCodigo(), parte.getNome(), parte.getPeso_componente(), parte.getPeso_nota());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(parteResponse);
     }
 
-     private List<SearchParteResponse> mapToSPRList(List<Parte> partes) {
+     private List<FindParteResponse> mapToSPRList(List<Parte> partes) {
         return partes.stream()
-                .map(parte -> new SearchParteResponse(parte.getCodigo(),parte.getNome(),parte.getPeso_componente(), parte.getPeso_nota()))
+                .map(parte -> new FindParteResponse(parte.getCodigo(),parte.getNome(),parte.getPeso_componente(), parte.getPeso_nota()))
                 .collect(Collectors.toList());
     }
 }

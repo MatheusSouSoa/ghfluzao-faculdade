@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.curso.CreateCursoRequest;
-import br.com.api.ghfluzao.data.dto.curso.SearchCursoResponse;
+import br.com.api.ghfluzao.data.dto.curso.FindCursoResponse;
 import br.com.api.ghfluzao.interfaces.CursoServiceInterface;
 
 @RestController
@@ -27,7 +27,7 @@ public class CursoController {
 
     
     @GetMapping("")
-    public List<SearchCursoResponse> listar(){
+    public List<FindCursoResponse> listar(){
         return _cursoService.listar();
     }
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.data.dto.prova.ProvaEditRequest;
-import br.com.api.ghfluzao.data.dto.prova.SearchProvaResponse;
+import br.com.api.ghfluzao.data.dto.prova.FindProvaResponse;
 import br.com.api.ghfluzao.data.repositories.ProvaRepository;
 import br.com.api.ghfluzao.enums.ProvaStatus;
 import br.com.api.ghfluzao.interfaces.CursoServiceInterface;
@@ -46,10 +46,10 @@ public class ProvaServices implements ProvaServiceInterface {
         return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<SearchProvaResponse> aprovarProva(Long codigoProva){
+    public ResponseEntity<FindProvaResponse> aprovarProva(Long codigoProva){
         var prova = validarProva(codigoProva);
 
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
   
         if(prova.getSituacao().equals(ProvaStatus.APROVADO)){
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -68,10 +68,10 @@ public class ProvaServices implements ProvaServiceInterface {
         return ResponseEntity.ok().body(provaResponse);
     }
 
-    public ResponseEntity<SearchProvaResponse> recusarProva(Long codigoProva){
+    public ResponseEntity<FindProvaResponse> recusarProva(Long codigoProva){
         var prova = validarProva(codigoProva);
 
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
   
         if(prova.getSituacao().equals(ProvaStatus.RECUSADO)){
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -90,10 +90,10 @@ public class ProvaServices implements ProvaServiceInterface {
         return ResponseEntity.ok().body(provaResponse);
     }
 
-    public ResponseEntity<SearchProvaResponse> suspenderProva(Long codigoProva){
+    public ResponseEntity<FindProvaResponse> suspenderProva(Long codigoProva){
         var prova = validarProva(codigoProva);
 
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
   
         if(prova.getSituacao().equals(ProvaStatus.SUSPENSO)){
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -110,10 +110,10 @@ public class ProvaServices implements ProvaServiceInterface {
         return ResponseEntity.badRequest().body(provaResponse);
     }
 
-    public ResponseEntity<SearchProvaResponse> revisarProva(Long codigoProva){
+    public ResponseEntity<FindProvaResponse> revisarProva(Long codigoProva){
         var prova = validarProva(codigoProva);
 
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
   
         if(prova.getSituacao().equals(ProvaStatus.REVISADO)){
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -130,10 +130,10 @@ public class ProvaServices implements ProvaServiceInterface {
         return ResponseEntity.badRequest().body(provaResponse);
     }
 
-    public ResponseEntity<SearchProvaResponse> esperarProva(Long codigoProva){
+    public ResponseEntity<FindProvaResponse> esperarProva(Long codigoProva){
         var prova = validarProva(codigoProva);
 
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
   
         if(prova.getSituacao().equals(ProvaStatus.PRONTA)){
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -150,11 +150,11 @@ public class ProvaServices implements ProvaServiceInterface {
         return ResponseEntity.badRequest().body(provaResponse);
     }
 
-    public ResponseEntity<SearchProvaResponse> aplicarProva(Long codigoProva) {
+    public ResponseEntity<FindProvaResponse> aplicarProva(Long codigoProva) {
 
         var prova = validarProva(codigoProva);
 
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
         
         if (prova.getSituacao().equals(ProvaStatus.APLICADA)) {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -190,7 +190,7 @@ public class ProvaServices implements ProvaServiceInterface {
         return prova;
     }
 
-    public List<SearchProvaResponse> listar() {
+    public List<FindProvaResponse> listar() {
         List<Prova> provas = (List<Prova>) _provaRepository.findAll();
         return mapToSPRList(provas);
     }
@@ -218,7 +218,7 @@ public class ProvaServices implements ProvaServiceInterface {
             }
             prova.setCodigo_curso(request.getCodigoCurso());
         }
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao() ,prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao() ,prova.getCodigo_curso());
 
         _provaRepository.save(prova);
 
@@ -244,22 +244,22 @@ public class ProvaServices implements ProvaServiceInterface {
         if(prova == null){
             return new ResponseEntity<>("Prova não encontrada.", HttpStatus.NOT_FOUND);
         }
-        SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(),prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(),prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
 
         return ResponseEntity.status(HttpStatus.OK).body(provaResponse);
     }
 
-    private List<SearchProvaResponse> mapToSPRList(List<Prova> provas) {
+    private List<FindProvaResponse> mapToSPRList(List<Prova> provas) {
         return provas.stream()
-                .map(prova -> new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao() ,prova.getCodigo_curso()))
+                .map(prova -> new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao() ,prova.getCodigo_curso()))
                 .collect(Collectors.toList());
     }
 
-    public List<SearchProvaResponse> buscarPorCodigoCurso(Long codigoCurso) {
+    public List<FindProvaResponse> buscarPorCodigoCurso(Long codigoCurso) {
         return mapToSPRList( _provaRepository.findByCodigo_curso(codigoCurso));
     }
 
-    public List<SearchProvaResponse> buscarPorAno(Integer ano) {
+    public List<FindProvaResponse> buscarPorAno(Integer ano) {
         return mapToSPRList( _provaRepository.findByAno(ano));
     }
 

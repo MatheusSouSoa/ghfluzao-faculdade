@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SearchProvaResponse {
+public class FindProvaResponse {
     
     public Long codigoProva;
     public Integer ano;

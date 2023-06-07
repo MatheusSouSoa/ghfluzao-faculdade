@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.assunto.CreateAssuntoRequest;
-import br.com.api.ghfluzao.data.dto.assunto.SearchAssuntoResponse;
+import br.com.api.ghfluzao.data.dto.assunto.FindAssuntoResponse;
 import br.com.api.ghfluzao.data.repositories.AssuntoRepository;
 import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
 import br.com.api.ghfluzao.models.Assunto;
@@ -41,7 +41,7 @@ public class AssuntoService implements AssuntoServiceInterface {
         return assunto;
     }
 
-    public List<SearchAssuntoResponse> listar(){
+    public List<FindAssuntoResponse> listar(){
         List<Assunto> assuntos = (List<Assunto>) _assuntoRepository.findAll();
         return mapToSPRList(assuntos);
     }
@@ -58,7 +58,7 @@ public class AssuntoService implements AssuntoServiceInterface {
             assunto.setMateria(request.materia);
         }
    
-        SearchAssuntoResponse assuntoResponse = new SearchAssuntoResponse(assunto.getCodigo(), assunto.getMateria());
+        FindAssuntoResponse assuntoResponse = new FindAssuntoResponse(assunto.getCodigo(), assunto.getMateria());
 
         _assuntoRepository.save(assunto);
 
@@ -84,14 +84,14 @@ public class AssuntoService implements AssuntoServiceInterface {
         if (assunto == null) {
             return new ResponseEntity<>("assunto não encontrado.", HttpStatus.NOT_FOUND);
         }
-        SearchAssuntoResponse assuntoResponse = new SearchAssuntoResponse(assunto.getCodigo(), assunto.getMateria());
+        FindAssuntoResponse assuntoResponse = new FindAssuntoResponse(assunto.getCodigo(), assunto.getMateria());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(assuntoResponse);
     }
 
-    private List<SearchAssuntoResponse> mapToSPRList(List<Assunto> assuntos) {
+    private List<FindAssuntoResponse> mapToSPRList(List<Assunto> assuntos) {
         return assuntos.stream()
-                .map(assunto -> new SearchAssuntoResponse(assunto.getCodigo(), assunto.getMateria()))
+                .map(assunto -> new FindAssuntoResponse(assunto.getCodigo(), assunto.getMateria()))
                 .collect(Collectors.toList());
     }
 }

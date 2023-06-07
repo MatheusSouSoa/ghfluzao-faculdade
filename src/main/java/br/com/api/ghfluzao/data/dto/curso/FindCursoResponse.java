@@ -5,7 +5,7 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class SearchCursoResponse {
+public class FindCursoResponse {
     
     public Long codigoCurso;
     public String nomeCurso;

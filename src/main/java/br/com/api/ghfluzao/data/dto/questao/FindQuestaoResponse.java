@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SearchQuestaoResponse {
+public class FindQuestaoResponse {
 
     public Long codigoQuestao;
     public Long codigoParte;

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.opçao.CreateOpcaoRequest;
-import br.com.api.ghfluzao.data.dto.opçao.SearchOpcaoResponse;
+import br.com.api.ghfluzao.data.dto.opçao.FindOpcaoResponse;
 import br.com.api.ghfluzao.data.repositories.OpcaoRepository;
 import br.com.api.ghfluzao.interfaces.OpcaoServiceInterface;
 import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
@@ -73,7 +73,7 @@ public class OpcaoService implements OpcaoServiceInterface{
             }
             opcao.setCodigo_questao(request.questaoCodigo);
         }
-        SearchOpcaoResponse opcaoResponse = new SearchOpcaoResponse(opcao.getCodigo(), opcao.getLetra(), opcao.getTexto(), opcao.getCodigo_questao());
+        FindOpcaoResponse opcaoResponse = new FindOpcaoResponse(opcao.getCodigo(), opcao.getLetra(), opcao.getTexto(), opcao.getCodigo_questao());
 
         _opcaoRepository.save(opcao);
 
@@ -99,7 +99,7 @@ public class OpcaoService implements OpcaoServiceInterface{
         if (opcao == null) {
             return new ResponseEntity<>("opcao não encontrada.", HttpStatus.NOT_FOUND);
         }
-        SearchOpcaoResponse opcaoResponse = new SearchOpcaoResponse(opcao.getCodigo(), opcao.getLetra(),
+        FindOpcaoResponse opcaoResponse = new FindOpcaoResponse(opcao.getCodigo(), opcao.getLetra(),
                 opcao.getTexto(), opcao.getCodigo_questao());
 
         return ResponseEntity.status(HttpStatus.OK).body(opcaoResponse);

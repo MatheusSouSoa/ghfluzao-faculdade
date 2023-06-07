@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.assunto.CreateAssuntoRequest;
-import br.com.api.ghfluzao.data.dto.assunto.SearchAssuntoResponse;
+import br.com.api.ghfluzao.data.dto.assunto.FindAssuntoResponse;
 import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
 
 @RestController
@@ -27,7 +27,7 @@ public class AssuntoController {
     private AssuntoServiceInterface _assuntoService;
 
     @GetMapping("")
-    public List<SearchAssuntoResponse> listar(){
+    public List<FindAssuntoResponse> listar(){
         return _assuntoService.listar();
     }
 

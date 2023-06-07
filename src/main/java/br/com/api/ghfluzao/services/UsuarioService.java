@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.api.ghfluzao.data.dto.usuario.FindUsuarioResponse;
+import br.com.api.ghfluzao.data.dto.usuario.CreateUsuarioRequest;
 import br.com.api.ghfluzao.data.repositories.UsuarioRepository;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
 import br.com.api.ghfluzao.models.Usuario;
@@ -16,7 +16,8 @@ public class UsuarioService implements UsuarioServiceInterface{
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public ResponseEntity<?> criarUsuario(Usuario usuario){
+    public ResponseEntity<?> criarUsuario(CreateUsuarioRequest request){
+        var usuario = new Usuario(request.nome, request.email, request.senha);
         
         if(usuario.getEmail().equals(null) || usuario.getNome().equals(null) || usuario.getSenha().equals(null)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -26,15 +27,10 @@ public class UsuarioService implements UsuarioServiceInterface{
 
     }
 
-    public ResponseEntity<FindUsuarioResponse> pegarUsuarioPorEmail(String email){
+    public Usuario pegarUsuarioPorEmail(String email){
         var usuario = usuarioRepository.findByEmail(email).get(0);
-
-        if(usuario == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        var response = new FindUsuarioResponse(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha());
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        
+        return usuario;
     }
     
 }

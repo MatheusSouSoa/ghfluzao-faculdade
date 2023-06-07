@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.questao.CreateQuestaoRequest;
-import br.com.api.ghfluzao.data.dto.questao.SearchQuestaoResponse;
+import br.com.api.ghfluzao.data.dto.questao.FindQuestaoResponse;
 import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
 
 @RestController
@@ -27,7 +27,7 @@ public class QuestaoController {
     private QuestaoServiceInterface _questaoService;
 
     @GetMapping("")
-    public List<SearchQuestaoResponse> Listar(){
+    public List<FindQuestaoResponse> Listar(){
         return _questaoService.listar();
     }
 
@@ -54,38 +54,38 @@ public class QuestaoController {
     }
 
     @GetMapping("/questao-por-prova/{codigoProva}")
-    public ResponseEntity<List<SearchQuestaoResponse>> buscarQuestaoPorProva(@PathVariable Long codigoProva) {
-            List<SearchQuestaoResponse> questoes = _questaoService.findByCodigo_prova(codigoProva);
+    public ResponseEntity<List<FindQuestaoResponse>> buscarQuestaoPorProva(@PathVariable Long codigoProva) {
+            List<FindQuestaoResponse> questoes = _questaoService.findByCodigo_prova(codigoProva);
             return ResponseEntity.ok(questoes);
     }
 
     @PutMapping("/aprovar-questao")
-    public ResponseEntity<SearchQuestaoResponse> aprovaQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> aprovaQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.aprovarQuestao(codigoQuestao);
     }
 
     @PutMapping("/recusar-questao")
-    public ResponseEntity<SearchQuestaoResponse> recusarProva(@RequestParam("codigoQuestao") Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> recusarProva(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.recusarQuestao(codigoQuestao);
     }
 
     @PutMapping("/suspender-questao")
-    public ResponseEntity<SearchQuestaoResponse> suspenderQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> suspenderQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.suspenderQuestao(codigoQuestao);
     }
 
     @PutMapping("/revisar-questao")
-    public ResponseEntity<SearchQuestaoResponse> revisarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> revisarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.revisarQuestao(codigoQuestao);
     }
 
     @PutMapping("/validar-questao")
-    public ResponseEntity<SearchQuestaoResponse> validarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> validarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.aprontarQuestao(codigoQuestao);
     }
 
     @PutMapping("/esperar-questao")
-    public ResponseEntity<SearchQuestaoResponse> esperarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> esperarQuestao(@RequestParam("codigoQuestao") Long codigoQuestao) {
         return _questaoService.esperarQuestao(codigoQuestao);
     }
 }

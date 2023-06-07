@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.questao.CreateQuestaoRequest;
-import br.com.api.ghfluzao.data.dto.questao.SearchQuestaoResponse;
+import br.com.api.ghfluzao.data.dto.questao.FindQuestaoResponse;
 import br.com.api.ghfluzao.data.repositories.QuestaoRepository;
 import br.com.api.ghfluzao.enums.QuestaoStatus;
 import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
@@ -62,10 +62,10 @@ public class QuestaoService implements QuestaoServiceInterface {
         return questao;
     }
 
-    public ResponseEntity<SearchQuestaoResponse> aprovarQuestao(Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> aprovarQuestao(Long codigoQuestao) {
         var questao = validarQuestao(codigoQuestao);
 
-        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        FindQuestaoResponse questaoResponse = new FindQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
 
         if (questao.getSituacao().equals(QuestaoStatus.APROVADO)) {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -83,10 +83,10 @@ public class QuestaoService implements QuestaoServiceInterface {
         return ResponseEntity.ok().body(questaoResponse);
     }
 
-    public ResponseEntity<SearchQuestaoResponse> recusarQuestao(Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> recusarQuestao(Long codigoQuestao) {
         var questao = validarQuestao(codigoQuestao);
 
-        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(),questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        FindQuestaoResponse questaoResponse = new FindQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(),questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
 
         if (questao.getSituacao().equals(QuestaoStatus.RECUSADO)) {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -104,10 +104,10 @@ public class QuestaoService implements QuestaoServiceInterface {
         return ResponseEntity.ok().body(questaoResponse);
     }
 
-    public ResponseEntity<SearchQuestaoResponse> suspenderQuestao(Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> suspenderQuestao(Long codigoQuestao) {
         var questao = validarQuestao(codigoQuestao);
 
-        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        FindQuestaoResponse questaoResponse = new FindQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
         if (questao.getSituacao().equals(QuestaoStatus.SUPENSO)) {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
         }
@@ -123,10 +123,10 @@ public class QuestaoService implements QuestaoServiceInterface {
         return ResponseEntity.badRequest().body(questaoResponse);
     }
 
-    public ResponseEntity<SearchQuestaoResponse> revisarQuestao(Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> revisarQuestao(Long codigoQuestao) {
         var questao = validarQuestao(codigoQuestao);
 
-        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        FindQuestaoResponse questaoResponse = new FindQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
         
         if (questao.getSituacao().equals(QuestaoStatus.REVISADO)) {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -143,10 +143,10 @@ public class QuestaoService implements QuestaoServiceInterface {
         return ResponseEntity.badRequest().body(questaoResponse);
     }
 
-    public ResponseEntity<SearchQuestaoResponse> esperarQuestao(Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> esperarQuestao(Long codigoQuestao) {
         var questao = validarQuestao(codigoQuestao);
 
-        SearchQuestaoResponse QuestaoResponse = new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        FindQuestaoResponse QuestaoResponse = new FindQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
 
         if (questao.getSituacao().equals(QuestaoStatus.AGUARDANDO)) {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -163,11 +163,11 @@ public class QuestaoService implements QuestaoServiceInterface {
         return ResponseEntity.badRequest().body(QuestaoResponse);
     }
 
-    public ResponseEntity<SearchQuestaoResponse> aprontarQuestao(Long codigoQuestao) {
+    public ResponseEntity<FindQuestaoResponse> aprontarQuestao(Long codigoQuestao) {
 
         var questao = validarQuestao(codigoQuestao);
 
-        SearchQuestaoResponse QuestaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        FindQuestaoResponse QuestaoResponse = new FindQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
 
         if (questao.getSituacao().equals(QuestaoStatus.APTO)) {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -183,7 +183,7 @@ public class QuestaoService implements QuestaoServiceInterface {
         return ResponseEntity.badRequest().body(QuestaoResponse);
     }
 
-    public List<SearchQuestaoResponse> listar(){
+    public List<FindQuestaoResponse> listar(){
         List<Questao> questoes = (List<Questao>) _questaoRepository.findAll();
         return mapToSPRList(questoes);
     }
@@ -233,7 +233,7 @@ public class QuestaoService implements QuestaoServiceInterface {
             
             questao.setCodigo_prova(request.codigoProva);
         }
-        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        FindQuestaoResponse questaoResponse = new FindQuestaoResponse(questao.getCodigo(), questao.getCodigo_parte(), questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
 
         _questaoRepository.save(questao);
 
@@ -259,19 +259,19 @@ public class QuestaoService implements QuestaoServiceInterface {
         if (questao == null) {
             return new ResponseEntity<>("questao não encontrada.", HttpStatus.NOT_FOUND);
         }
-        SearchQuestaoResponse questaoResponse = new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
+        FindQuestaoResponse questaoResponse = new FindQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao());
 
         return ResponseEntity.status(HttpStatus.OK).body(questaoResponse);
     }
 
-    private List<SearchQuestaoResponse> mapToSPRList(List<Questao> questoes) {
+    private List<FindQuestaoResponse> mapToSPRList(List<Questao> questoes) {
         return questoes.stream()
-                .map(questao -> new SearchQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao()))
+                .map(questao -> new FindQuestaoResponse(questao.getCodigo(),questao.getCodigo_parte(),questao.getCodigo_assunto(), questao.getCodigo_prova(), questao.getEnunciado(), questao.getNumero(), questao.getFigura(), questao.getSituacao()))
                 .collect(Collectors.toList());
 
     }
 
-    public List<SearchQuestaoResponse> findByCodigo_prova(Long codigoProva){
+    public List<FindQuestaoResponse> findByCodigo_prova(Long codigoProva){
         return mapToSPRList(_questaoRepository.findByCodigo_prova(codigoProva));
     }
 

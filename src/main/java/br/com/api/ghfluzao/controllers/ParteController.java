@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.parte.CreateParteRequest;
-import br.com.api.ghfluzao.data.dto.parte.SearchParteResponse;
+import br.com.api.ghfluzao.data.dto.parte.FindParteResponse;
 import br.com.api.ghfluzao.interfaces.ParteServiceInterface;
 
 @RestController
@@ -26,7 +26,7 @@ public class ParteController {
     private ParteServiceInterface _parteService;
 
     @GetMapping("")
-    public List<SearchParteResponse> listar(){
+    public List<FindParteResponse> listar(){
         return _parteService.listar();
     }
 

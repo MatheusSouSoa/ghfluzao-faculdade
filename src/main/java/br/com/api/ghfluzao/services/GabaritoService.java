@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.gabarito.CreateGabaritoRequest;
-import br.com.api.ghfluzao.data.dto.gabarito.SearchGabaritoResponse;
+import br.com.api.ghfluzao.data.dto.gabarito.FindGabaritoResponse;
 import br.com.api.ghfluzao.data.repositories.GabaritoRepository;
 import br.com.api.ghfluzao.interfaces.GabaritoServiceInterface;
 import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
@@ -63,7 +63,7 @@ public class GabaritoService implements GabaritoServiceInterface {
             gabarito.setCodigo_questao(request.questaoCodigo);
         }
 
-        SearchGabaritoResponse gabaritoResponse = new SearchGabaritoResponse(gabarito.getCodigo(), gabarito.getResposta(), gabarito.getCodigo_questao());
+        FindGabaritoResponse gabaritoResponse = new FindGabaritoResponse(gabarito.getCodigo(), gabarito.getResposta(), gabarito.getCodigo_questao());
 
         _gabaritoRepository.save(gabarito);
 
@@ -89,7 +89,7 @@ public class GabaritoService implements GabaritoServiceInterface {
         if (gabarito == null) {
             return new ResponseEntity<>("Gabarito não encontrado.", HttpStatus.NOT_FOUND);
         }
-        SearchGabaritoResponse gabaritoResponse = new SearchGabaritoResponse(gabarito.getCodigo(), gabarito.getResposta(), gabarito.getCodigo_questao());
+        FindGabaritoResponse gabaritoResponse = new FindGabaritoResponse(gabarito.getCodigo(), gabarito.getResposta(), gabarito.getCodigo_questao());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(gabaritoResponse);
     }

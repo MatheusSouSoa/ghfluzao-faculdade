@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SearchOpcaoResponse {
+public class FindOpcaoResponse {
     
     public Long codigoOpcao;
     public Character letra;

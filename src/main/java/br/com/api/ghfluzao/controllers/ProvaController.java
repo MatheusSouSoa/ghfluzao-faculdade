@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.prova.CreateProvaRequest;
 import br.com.api.ghfluzao.data.dto.prova.ProvaEditRequest;
-import br.com.api.ghfluzao.data.dto.prova.SearchProvaResponse;
+import br.com.api.ghfluzao.data.dto.prova.FindProvaResponse;
 import br.com.api.ghfluzao.interfaces.ProvaServiceInterface;
 import br.com.api.ghfluzao.models.Prova;
 
@@ -38,7 +38,7 @@ public class ProvaController {
     }
 
     @GetMapping("")
-    public List<SearchProvaResponse> listar() {
+    public List<FindProvaResponse> listar() {
         return _provaService.listar();
     }
 
@@ -59,14 +59,14 @@ public class ProvaController {
     }
     
     @GetMapping("/buscar-por-curso")
-    public ResponseEntity<List<SearchProvaResponse>> buscarPorCodigoCurso(@RequestParam("codigoCurso") Long codigoCurso) {
-        List<SearchProvaResponse> provas = _provaService.buscarPorCodigoCurso(codigoCurso);
+    public ResponseEntity<List<FindProvaResponse>> buscarPorCodigoCurso(@RequestParam("codigoCurso") Long codigoCurso) {
+        List<FindProvaResponse> provas = _provaService.buscarPorCodigoCurso(codigoCurso);
         return ResponseEntity.ok(provas);
     }
     
     @GetMapping("/buscar-por-ano")
-    public ResponseEntity<List<SearchProvaResponse>> buscarPorAno(@RequestParam("ano") Integer ano) {
-        List<SearchProvaResponse> provas = _provaService.buscarPorAno(ano);
+    public ResponseEntity<List<FindProvaResponse>> buscarPorAno(@RequestParam("ano") Integer ano) {
+        List<FindProvaResponse> provas = _provaService.buscarPorAno(ano);
         return ResponseEntity.ok(provas);
     }
     
@@ -76,32 +76,32 @@ public class ProvaController {
     }
     
     @PutMapping("/aprovar-prova")
-    public ResponseEntity<SearchProvaResponse> aprovaProva(@RequestParam("codigoProva") Long codigoProva){
+    public ResponseEntity<FindProvaResponse> aprovaProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.aprovarProva(codigoProva);
     }
     
     @PutMapping("/recusar-prova")
-    public ResponseEntity<SearchProvaResponse> recusarProva(@RequestParam("codigoProva") Long codigoProva){
+    public ResponseEntity<FindProvaResponse> recusarProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.recusarProva(codigoProva);
     }
 
     @PutMapping("/suspender-prova")
-    public ResponseEntity<SearchProvaResponse> suspenderProva(@RequestParam("codigoProva") Long codigoProva){
+    public ResponseEntity<FindProvaResponse> suspenderProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.suspenderProva(codigoProva);
     }
 
     @PutMapping("/revisar-prova")
-    public ResponseEntity<SearchProvaResponse> revisarProva(@RequestParam("codigoProva") Long codigoProva){
+    public ResponseEntity<FindProvaResponse> revisarProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.revisarProva(codigoProva);
     }
 
     @PutMapping("/esperar-prova")
-    public ResponseEntity<SearchProvaResponse> esperarProva(@RequestParam("codigoProva") Long codigoProva){
+    public ResponseEntity<FindProvaResponse> esperarProva(@RequestParam("codigoProva") Long codigoProva){
         return _provaService.esperarProva(codigoProva);
     }
 
     @PutMapping("/aplicar-prova/{codigoProva}")
-    public ResponseEntity<SearchProvaResponse> aplicarProva(@PathVariable Long codigoProva){
+    public ResponseEntity<FindProvaResponse> aplicarProva(@PathVariable Long codigoProva){
         return _provaService.aplicarProva(codigoProva);
     }
 }

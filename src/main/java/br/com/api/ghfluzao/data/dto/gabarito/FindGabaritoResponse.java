@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SearchGabaritoResponse {
+public class FindGabaritoResponse {
     
     public Long gabaritoCodigo;
     public String resposta;
