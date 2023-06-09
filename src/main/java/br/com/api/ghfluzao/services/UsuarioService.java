@@ -21,10 +21,12 @@ public class UsuarioService implements UsuarioServiceInterface{
         var usuario = new Usuario(request.nome, request.email, request.senha);
         
         if(usuario.getEmail().equals(null) || usuario.getNome().equals(null) || usuario.getSenha().equals(null)){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Todos os campos são obrigatorios.",HttpStatus.BAD_REQUEST);
         }
 
-        //usuario.setRole(RolesUsuarios.USER);
+        if(pegarUsuarioPorEmail(request.email) != null){
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Usuario ja cadastrado");
+        }
 
         usuarioRepository.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuario criado com sucesso!");

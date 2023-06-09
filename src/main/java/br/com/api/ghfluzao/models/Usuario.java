@@ -32,10 +32,11 @@ public class Usuario {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        //this.role = RolesUsuarios.USER;
+        this.role = RolesUsuarios.USER;
     }
 
-    public void setRole(RolesUsuarios admin) {
+    public void setRole(RolesUsuarios role) {
+        this.role = role;
     }
 
 }
