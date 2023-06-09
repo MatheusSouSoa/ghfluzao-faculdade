@@ -28,7 +28,7 @@ public class AuthService implements AuthServiceInterface {
         var response = new AuthenticateResponse();
 
         if (usuario == null) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario incorreto");
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario invalido.");
         }
 
         if(!usuario.getSenha().equals(request.password)){

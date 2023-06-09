@@ -1,5 +1,7 @@
 package br.com.api.ghfluzao.controllers;
 
+import java.nio.file.AccessDeniedException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,8 @@ public class UsuarioController {
     private JwtServiceInterface _jwtService;
 
     @PostMapping("")
-    private ResponseEntity<?> criarUsuario(@RequestBody CreateUsuarioRequest request){
-        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
+    private ResponseEntity<?> criarUsuario(@RequestBody CreateUsuarioRequest request) throws AccessDeniedException{
+        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId(), 0) == false){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
         }
         
@@ -34,8 +36,16 @@ public class UsuarioController {
     }
 
     @GetMapping("/buscar")
-    private ResponseEntity<?> pegarUsuariosPorEmail(@RequestParam("email") String email){
-        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
+    private ResponseEntity<?> pegarUsuariosPorEmail(@RequestParam("email") String email) throws AccessDeniedException{
+        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId(), 0) == false){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
+    }
+
+    @GetMapping("/setar-admin")
+    public ResponseEntity<?> setarAdmin(@RequestParam("email") String email) throws AccessDeniedException{
+         if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId(), 0) == false){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
         }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));

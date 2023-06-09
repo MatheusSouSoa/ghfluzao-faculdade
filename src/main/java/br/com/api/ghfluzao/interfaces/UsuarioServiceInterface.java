@@ -9,4 +9,9 @@ public interface UsuarioServiceInterface {
 
     ResponseEntity<?> criarUsuario(CreateUsuarioRequest request);
     Usuario pegarUsuarioPorEmail(String email);
+    Usuario pegarUsuarioPorId(Long codigo);
+    ResponseEntity<?> definirRoleAdmin(String email);
+    ResponseEntity<?> definirRoleFuncInep(String email);
+    ResponseEntity<?> definirRoleProfessor(String email);
+    ResponseEntity<?> definirRoleUser(String email);
 }

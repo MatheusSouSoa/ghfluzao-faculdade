@@ -1,14 +1,20 @@
 package br.com.api.ghfluzao.services;
 
+import java.nio.file.AccessDeniedException;
 import java.security.Key;
 import java.util.Date;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
+import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,11 +29,16 @@ public class JwtService implements JwtServiceInterface{
     private long EXPIRATION_TIME;
     @Value("${JWT.SECRET}")// SE N FOR, VOLTAR PARA FINAL E TRAZER A KEY DO APP.PROPERTIES
     private String KEY;
+
+    @Autowired
+    private UsuarioServiceInterface _usuarioServiceInterface;
     
     public String generateToken(Long codigoUsuario){
+
+        var usuario = _usuarioServiceInterface.pegarUsuarioPorId(codigoUsuario);
         
         Claims claims = Jwts.claims();
-        claims.put("ROLE", "ADMIN");
+        claims.put("ROLE", usuario.getRole());
         
         return Jwts
                 .builder()
@@ -39,7 +50,7 @@ public class JwtService implements JwtServiceInterface{
                 .compact();
     }
 
-    public boolean isValidToken(String token, String userId) {
+    public boolean isValidToken(String token, String userId, int rotaRole)  {
         var claims =    Jwts.parserBuilder()
                             .setSigningKey(genSignInKey())
                             .build().parseClaimsJws(token)
@@ -47,9 +58,19 @@ public class JwtService implements JwtServiceInterface{
 
         var sub = claims.getSubject();
         var tExpiration = claims.getExpiration();
+        //verificarRole(userId, rotaRole);
 
         return (sub.equals(userId) && !tExpiration.before(new Date()));
     }
+
+    // private ResponseEntity<?> verificarRole(String userId, int rotaRole){
+
+    //     var usuario = _usuarioServiceInterface.pegarUsuarioPorId(Long.parseLong(userId));
+    //     if(usuario.getRole().getValue() > rotaRole){
+    //         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem acesso/permissão a essa rota.");
+    //     }
+    //     return null;
+    //}
 
     private Key genSignInKey(){
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(KEY));

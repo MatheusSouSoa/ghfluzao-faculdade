@@ -1,6 +1,9 @@
 package br.com.api.ghfluzao.models;
 
+import br.com.api.ghfluzao.enums.RolesUsuarios;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,11 +25,17 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+    @Enumerated(EnumType.STRING)
+    private RolesUsuarios role;
 
     public Usuario(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        //this.role = RolesUsuarios.USER;
+    }
+
+    public void setRole(RolesUsuarios admin) {
     }
 
 }
