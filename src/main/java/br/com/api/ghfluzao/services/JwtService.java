@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import br.com.api.ghfluzao.enums.RolesUsuarios;
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
 import io.jsonwebtoken.Claims;
@@ -48,7 +47,7 @@ public class JwtService implements JwtServiceInterface{
                 .compact();
     }
 
-    public boolean isValidToken(String token, String userId, int rotaRole)  {
+    public boolean isValidToken(String token, String userId)  {
         var claims =    Jwts.parserBuilder()
                             .setSigningKey(genSignInKey())
                             .build().parseClaimsJws(token)
@@ -57,14 +56,12 @@ public class JwtService implements JwtServiceInterface{
         var sub = claims.getSubject();
         var tExpiration = claims.getExpiration();
         
-        if(verificarRole(userId, rotaRole)){
-            return false;
-        }
+ 
 
         return (sub.equals(userId) && !tExpiration.before(new Date()));
     }
 
-    private boolean verificarRole(String userId, int rotaRole){
+    public boolean verificarRole(String userId, int rotaRole){
 
         var usuario = _usuarioServiceInterface.pegarUsuarioPorId(Long.parseLong(userId));
  
