@@ -38,7 +38,7 @@ public class UsuarioController {
     @GetMapping("/buscar")
     private ResponseEntity<?> pegarUsuariosPorEmail(@RequestParam("email") String email) throws AccessDeniedException{
         if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId(), 0) == false){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado ou não tem acesso a rota.");
         }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
     }

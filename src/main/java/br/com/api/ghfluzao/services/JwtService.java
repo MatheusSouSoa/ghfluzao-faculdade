@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import br.com.api.ghfluzao.enums.RolesUsuarios;
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
 import io.jsonwebtoken.Claims;
@@ -55,19 +56,23 @@ public class JwtService implements JwtServiceInterface{
 
         var sub = claims.getSubject();
         var tExpiration = claims.getExpiration();
-        //verificarRole(userId, rotaRole);
+        
+        if(verificarRole(userId, rotaRole)){
+            return false;
+        }
 
         return (sub.equals(userId) && !tExpiration.before(new Date()));
     }
 
-    // private ResponseEntity<?> verificarRole(String userId, int rotaRole){
+    private boolean verificarRole(String userId, int rotaRole){
 
-    //     var usuario = _usuarioServiceInterface.pegarUsuarioPorId(Long.parseLong(userId));
-    //     if(usuario.getRole().getValue() > rotaRole){
-    //         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem acesso/permissão a essa rota.");
-    //     }
-    //     return null;
-    //}
+        var usuario = _usuarioServiceInterface.pegarUsuarioPorId(Long.parseLong(userId));
+ 
+        if(usuario.getRole().getValue() > rotaRole ){
+            return true;
+        }
+        return false;
+    }
 
     private Key genSignInKey(){
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(KEY));
