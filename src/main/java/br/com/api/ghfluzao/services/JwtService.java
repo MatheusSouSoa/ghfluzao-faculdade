@@ -1,14 +1,11 @@
 package br.com.api.ghfluzao.services;
 
-import java.nio.file.AccessDeniedException;
 import java.security.Key;
 import java.util.Date;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
