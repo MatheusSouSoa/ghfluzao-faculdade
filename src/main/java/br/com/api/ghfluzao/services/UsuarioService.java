@@ -3,6 +3,7 @@ package br.com.api.ghfluzao.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.usuario.CreateUsuarioRequest;
@@ -17,16 +18,21 @@ public class UsuarioService implements UsuarioServiceInterface{
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder _passwordEncoder;
+
     public ResponseEntity<?> criarUsuario(CreateUsuarioRequest request){
-        var usuario = new Usuario(request.nome, request.email, request.senha);
+        var usuario = new Usuario(request.nome, request.email);
         
-        if(usuario.getEmail().equals(null) || usuario.getNome().equals(null) || usuario.getSenha().equals(null)){
+        if(request.getEmail().equals(null) || request.getNome().equals(null) || request.getSenha().equals(null)){
             return new ResponseEntity<>("Todos os campos são obrigatorios.",HttpStatus.BAD_REQUEST);
         }
 
         if(pegarUsuarioPorEmail(request.email) != null){
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Usuario ja cadastrado");
         }
+
+        usuario.setSenha(_passwordEncoder.encode(request.senha));
 
         usuarioRepository.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body("Usuario criado com sucesso!");
@@ -74,13 +80,21 @@ public class UsuarioService implements UsuarioServiceInterface{
     }
 
     public Usuario pegarUsuarioPorEmail(String email){
-        var usuario = usuarioRepository.findByEmail(email).get(0);
+        try{
+            var usuario = usuarioRepository.findByEmail(email).get(0);
+            return usuario;
+        } catch (Exception e) {
+            return null;
+        }
         
-        return usuario;
     }
     public Usuario pegarUsuarioPorId(Long codigo){
         var usuario = usuarioRepository.findById(codigo).get();
         
+        if(usuario == null){
+            return null;
+        }
+
         return usuario;
     }
     
