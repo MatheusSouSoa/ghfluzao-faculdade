@@ -22,8 +22,9 @@ public class UsuarioService implements UsuarioServiceInterface{
         if(usuario.getEmail().equals(null) || usuario.getNome().equals(null) || usuario.getSenha().equals(null)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
         usuarioRepository.save(usuario);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario criado com sucesso!");
 
     }
 

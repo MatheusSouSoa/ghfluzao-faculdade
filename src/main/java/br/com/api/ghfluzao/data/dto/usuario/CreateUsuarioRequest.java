@@ -10,5 +10,6 @@ public class CreateUsuarioRequest {
     public String nome;
     public String email;
     public String senha;
+    public Long createTo;
 
 }

@@ -5,23 +5,33 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+
 @Service
 public class JwtService implements JwtServiceInterface{
 
-    private final long EXPIRATION_TIME = 10800000;
-    @Value("${JWT_KEY}")// SE N FOR, VOLTAR PARA FINAL E TRAZER A KEY DO APP.PROPERTIES
+    @Value("${JWT.EXPIRATION}")
+    private long EXPIRATION_TIME;
+    @Value("${JWT.SECRET}")// SE N FOR, VOLTAR PARA FINAL E TRAZER A KEY DO APP.PROPERTIES
     private String KEY;
     
     public String generateToken(Long codigoUsuario){
+        
+        Claims claims = Jwts.claims();
+        claims.put("ROLE", "ADMIN");
+        
         return Jwts
                 .builder()
+                .setClaims(claims)
                 .setSubject(codigoUsuario.toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -29,8 +39,30 @@ public class JwtService implements JwtServiceInterface{
                 .compact();
     }
 
+    public boolean isValidToken(String token, String userId) {
+        var claims =    Jwts.parserBuilder()
+                            .setSigningKey(genSignInKey())
+                            .build().parseClaimsJws(token)
+                            .getBody();
+
+        var sub = claims.getSubject();
+        var tExpiration = claims.getExpiration();
+
+        return (sub.equals(userId) && tExpiration.before(new Date()));
+    }
+
     private Key genSignInKey(){
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(KEY));
+    }
+
+    public String getToken() {
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                .getHeader("Authorization");
+    }
+
+    public String getUserId() {
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                .getHeader("UserId");
     }
 
 }
