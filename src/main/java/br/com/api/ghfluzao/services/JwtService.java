@@ -48,7 +48,7 @@ public class JwtService implements JwtServiceInterface{
         var sub = claims.getSubject();
         var tExpiration = claims.getExpiration();
 
-        return (sub.equals(userId) && tExpiration.before(new Date()));
+        return (sub.equals(userId) && !tExpiration.before(new Date()));
     }
 
     private Key genSignInKey(){

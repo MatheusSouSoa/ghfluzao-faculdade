@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.api.ghfluzao.data.dto.usuario.CreateUsuarioRequest;
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
-import br.com.api.ghfluzao.models.Usuario;
 
 @RestController
 @RequestMapping("/api-v3/usuarios")
@@ -27,7 +26,7 @@ public class UsuarioController {
 
     @PostMapping("")
     private ResponseEntity<?> criarUsuario(@RequestBody CreateUsuarioRequest request){
-        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId())){
+        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
         }
         
@@ -35,8 +34,11 @@ public class UsuarioController {
     }
 
     @GetMapping("/buscar")
-    private Usuario pegarUsuariosPorEmail(@RequestParam("email") String email){
-        return usuarioServiceInterface.pegarUsuarioPorEmail(email);
+    private ResponseEntity<?> pegarUsuariosPorEmail(@RequestParam("email") String email){
+        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
     }
 
 
