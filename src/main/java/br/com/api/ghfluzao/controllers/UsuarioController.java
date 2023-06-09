@@ -51,6 +51,9 @@ public class UsuarioController {
          if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
         }
+        if(_jwtService.verificarRole(_jwtService.getUserId(), 0)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
     }
 
