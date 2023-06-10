@@ -2,7 +2,7 @@ package br.com.api.ghfluzao.services;
 
 import java.security.Key;
 import java.util.Date;
-
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import br.com.api.ghfluzao.enums.RolesUsuarios;
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
 import io.jsonwebtoken.Claims;
@@ -48,24 +49,27 @@ public class JwtService implements JwtServiceInterface{
     }
 
     public boolean isValidToken(String token, String userId)  {
-        var claims =    Jwts.parserBuilder()
-                            .setSigningKey(genSignInKey())
-                            .build().parseClaimsJws(token)
-                            .getBody();
-
-        var sub = claims.getSubject();
-        var tExpiration = claims.getExpiration();
         
- 
+        var sub = getClaims(token, Claims::getSubject);
+        var tExpiration = getClaims(token, Claims::getExpiration);
 
         return (sub.equals(userId) && !tExpiration.before(new Date()));
     }
 
-    public boolean verificarRole(String userId, int rotaRole){
+    private <T> T getClaims(String token, Function<Claims, T> claimsResolver){
+        var claims =    Jwts
+                        .parserBuilder()
+                        .setSigningKey(genSignInKey())
+                        .build().parseClaimsJws(token)
+                        .getBody();
+        return claimsResolver.apply(claims);                        
+    }
+
+    public boolean verificarRole(String userId, RolesUsuarios rotaRole){
 
         var usuario = _usuarioServiceInterface.pegarUsuarioPorId(Long.parseLong(userId));
- 
-        if(usuario.getRole().getValue() > rotaRole ){
+        
+        if(usuario.getRole().getValue() > rotaRole.getValue() ){
             return true;
         }
         return false;
@@ -82,7 +86,7 @@ public class JwtService implements JwtServiceInterface{
 
     public String getUserId() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                .getHeader("UserId");
+                .getHeader("RequestedBy");
     }
 
 }

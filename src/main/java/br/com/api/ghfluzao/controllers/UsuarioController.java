@@ -1,7 +1,5 @@
 package br.com.api.ghfluzao.controllers;
 
-import java.nio.file.AccessDeniedException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.ghfluzao.data.dto.usuario.CreateUsuarioRequest;
+import br.com.api.ghfluzao.enums.RolesUsuarios;
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
 
@@ -26,32 +25,42 @@ public class UsuarioController {
     @Autowired
     private JwtServiceInterface _jwtService;
 
-    @PostMapping("")
-    private ResponseEntity<?> criarUsuario(@RequestBody CreateUsuarioRequest request) throws AccessDeniedException{
+    @PostMapping("/criar")
+    private ResponseEntity<?> criarUsuario(@RequestBody CreateUsuarioRequest request) {
         
         return usuarioServiceInterface.criarUsuario(request);
     }
 
     @GetMapping("/buscar")
-    private ResponseEntity<?> pegarUsuariosPorEmail(@RequestParam("email") String email) throws AccessDeniedException{
-        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado.");
-        }
-        if(_jwtService.verificarRole(_jwtService.getUserId(), 0)){
+    private ResponseEntity<?> pegarUsuariosPorEmail(@RequestParam("email") String email) {
+        if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario não tem permissão de acesso a essa rota");
         }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
     }
 
     @GetMapping("/setar-admin")
-    public ResponseEntity<?> setarAdmin(@RequestParam("email") String email) throws AccessDeniedException{
-         if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
-        }
-        if(_jwtService.verificarRole(_jwtService.getUserId(), 0)){
+    public ResponseEntity<?> setarAdmin(@RequestParam("email") String email) {
+        if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.definirRoleAdmin(email));
+    }
+
+    @GetMapping("/setar-func_inep")
+    public ResponseEntity<?> setarFuncInep(@RequestParam("email") String email){
+        if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.definirRoleFuncInep(email));
+    }
+
+    @GetMapping("/setar-professor")
+    public ResponseEntity<?> setarProfessor(@RequestParam("email") String email){
+        if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.definirRoleProfessor(email));
     }
 
 
