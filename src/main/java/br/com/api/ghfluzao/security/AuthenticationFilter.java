@@ -36,6 +36,7 @@ public class AuthenticationFilter extends OncePerRequestFilter{
         }
 
         if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs")){
+            filterChain.doFilter(request, response);
             return;
         }
 
