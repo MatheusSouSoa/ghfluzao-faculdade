@@ -28,9 +28,6 @@ public class UsuarioController {
 
     @PostMapping("")
     private ResponseEntity<?> criarUsuario(@RequestBody CreateUsuarioRequest request) throws AccessDeniedException{
-        if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado");
-        }
         
         return usuarioServiceInterface.criarUsuario(request);
     }
@@ -38,10 +35,10 @@ public class UsuarioController {
     @GetMapping("/buscar")
     private ResponseEntity<?> pegarUsuariosPorEmail(@RequestParam("email") String email) throws AccessDeniedException{
         if(_jwtService.isValidToken(_jwtService.getToken().substring(7), _jwtService.getUserId()) == false){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado ou não tem acesso a rota.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não autenticado.");
         }
         if(_jwtService.verificarRole(_jwtService.getUserId(), 0)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario não tem permissão de acesso a essa rota");
         }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
     }
