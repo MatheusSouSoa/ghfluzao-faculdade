@@ -12,6 +12,6 @@ public interface UsuarioServiceInterface {
     Usuario pegarUsuarioPorId(Long codigo);
     ResponseEntity<?> definirRoleAdmin(String email);
     ResponseEntity<?> definirRoleFuncInep(String email);
-    ResponseEntity<?> definirRoleProfessor(String email);
+    ResponseEntity<?> definirRoleProfessor(String email, Long codigo);
     ResponseEntity<?> definirRoleUser(String email);
 }

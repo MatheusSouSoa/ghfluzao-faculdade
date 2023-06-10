@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +40,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
     }
 
-    @GetMapping("/setar-admin")
+    @PutMapping("/setar-admin")
     public ResponseEntity<?> setarAdmin(@RequestParam("email") String email) {
         if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
@@ -47,7 +48,7 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.definirRoleAdmin(email));
     }
 
-    @GetMapping("/setar-func_inep")
+    @PutMapping("/setar-func_inep")
     public ResponseEntity<?> setarFuncInep(@RequestParam("email") String email){
         if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
@@ -55,12 +56,20 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.definirRoleFuncInep(email));
     }
 
-    @GetMapping("/setar-professor")
-    public ResponseEntity<?> setarProfessor(@RequestParam("email") String email){
+    @PutMapping("/setar-professor")
+    public ResponseEntity<?> setarProfessor(@RequestParam("email") String email, @RequestParam("codigo_assunto") Long codigo){
         if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.definirRoleProfessor(email));
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.definirRoleProfessor(email, codigo));
+    }
+
+    @PutMapping("/setar-usuario")
+    public ResponseEntity<?> setarUsuario(@RequestParam("email") String email){
+        if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuario não tem permissão de acesso a essa rota");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.definirRoleUser(email));
     }
 
 

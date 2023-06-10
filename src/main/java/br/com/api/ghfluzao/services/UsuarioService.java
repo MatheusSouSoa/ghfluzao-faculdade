@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.api.ghfluzao.data.dto.usuario.CreateUsuarioRequest;
 import br.com.api.ghfluzao.data.repositories.UsuarioRepository;
 import br.com.api.ghfluzao.enums.RolesUsuarios;
+import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
 import br.com.api.ghfluzao.models.Usuario;
 
@@ -20,6 +21,9 @@ public class UsuarioService implements UsuarioServiceInterface{
 
     @Autowired
     private PasswordEncoder _passwordEncoder;
+
+    @Autowired
+    private AssuntoServiceInterface _assuntoSerivce;
 
     public ResponseEntity<?> criarUsuario(CreateUsuarioRequest request){
         var usuario = new Usuario(request.nome, request.email);
@@ -59,12 +63,16 @@ public class UsuarioService implements UsuarioServiceInterface{
         return new ResponseEntity<>(usuarioRepository.save(usuario) ,HttpStatus.OK);
     }
 
-    public ResponseEntity<?> definirRoleProfessor(String email){
+    public ResponseEntity<?> definirRoleProfessor(String email, Long codigo){
         
         var usuario = pegarUsuarioPorEmail(email);
+        var assunto = _assuntoSerivce.validarAssunto(codigo);
+
         if(usuario.getEmail().equals(null))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado.");
-        usuario.setRole(RolesUsuarios.PROFESSOR);
+        if(assunto == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Materia invalida.");
+            usuario.setRole(RolesUsuarios.PROFESSOR);
         
         return new ResponseEntity<>(usuarioRepository.save(usuario) ,HttpStatus.OK);
     }
