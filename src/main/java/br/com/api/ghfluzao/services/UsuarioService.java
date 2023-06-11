@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.api.ghfluzao.data.dto.usuario.CreateUsuarioRequest;
+import br.com.api.ghfluzao.data.dto.usuario.FindUsuarioResponse;
 import br.com.api.ghfluzao.data.repositories.UsuarioRepository;
 import br.com.api.ghfluzao.enums.RolesUsuarios;
 import br.com.api.ghfluzao.interfaces.AssuntoServiceInterface;
@@ -50,7 +51,10 @@ public class UsuarioService implements UsuarioServiceInterface{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado.");
         usuario.setRole(RolesUsuarios.ADMIN);
         
-        return new ResponseEntity<>(usuarioRepository.save(usuario) ,HttpStatus.OK);
+        usuarioRepository.save(usuario);
+        var response = new FindUsuarioResponse(usuario.getId(), usuario.getNome(),usuario.getEmail(), usuario.getRole());
+        
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
     
     public ResponseEntity<?> definirRoleFuncInep(String email){
@@ -58,9 +62,12 @@ public class UsuarioService implements UsuarioServiceInterface{
         var usuario = pegarUsuarioPorEmail(email);
         if(usuario.getEmail().equals(null))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado.");
-        usuario.setRole(RolesUsuarios.FUNC_INEP);
         
-        return new ResponseEntity<>(usuarioRepository.save(usuario) ,HttpStatus.OK);
+        usuario.setRole(RolesUsuarios.FUNC_INEP);
+        usuarioRepository.save(usuario);
+        var response = new FindUsuarioResponse(usuario.getId(), usuario.getNome(),usuario.getEmail(), usuario.getRole());
+        
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     public ResponseEntity<?> definirRoleProfessor(String email, Long codigo){
@@ -72,9 +79,12 @@ public class UsuarioService implements UsuarioServiceInterface{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado.");
         if(assunto == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Materia invalida.");
-            usuario.setRole(RolesUsuarios.PROFESSOR);
+        usuario.setRole(RolesUsuarios.PROFESSOR);
+
+        usuarioRepository.save(usuario);
+        var response = new FindUsuarioResponse(usuario.getId(), usuario.getNome(),usuario.getEmail(), usuario.getRole());
         
-        return new ResponseEntity<>(usuarioRepository.save(usuario) ,HttpStatus.OK);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     public ResponseEntity<?> definirRoleUser(String email){
@@ -82,9 +92,12 @@ public class UsuarioService implements UsuarioServiceInterface{
         var usuario = pegarUsuarioPorEmail(email);
         if(usuario.getEmail().equals(null))
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado.");
-        usuario.setRole(RolesUsuarios.USER);
         
-        return new ResponseEntity<>(usuarioRepository.save(usuario) ,HttpStatus.OK);
+        usuario.setRole(RolesUsuarios.USER);
+        usuarioRepository.save(usuario);
+        var response = new FindUsuarioResponse(usuario.getId(), usuario.getNome(),usuario.getEmail(), usuario.getRole());
+        
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     public Usuario pegarUsuarioPorEmail(String email){
@@ -94,8 +107,20 @@ public class UsuarioService implements UsuarioServiceInterface{
         } catch (Exception e) {
             return null;
         }
-        
     }
+
+    public FindUsuarioResponse buscarUsuario(String email){
+        var usuario = pegarUsuarioPorEmail(email);
+
+        if(usuario == null){
+            return null;
+        }
+
+        var response = new FindUsuarioResponse(usuario.getId(), usuario.getNome(),usuario.getEmail(), usuario.getRole());
+
+        return response;
+    }
+
     public Usuario pegarUsuarioPorId(Long codigo){
         var usuario = usuarioRepository.findById(codigo).get();
         

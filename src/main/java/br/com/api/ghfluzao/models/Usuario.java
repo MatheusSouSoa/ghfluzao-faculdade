@@ -1,5 +1,7 @@
 package br.com.api.ghfluzao.models;
 
+import java.util.List;
+
 import br.com.api.ghfluzao.enums.RolesUsuarios;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +31,9 @@ public class Usuario {
     private String senha;
     @Enumerated(EnumType.STRING)
     private RolesUsuarios role;
+    @OneToMany
+    @JoinColumn(name = "codigo_usuario")
+    private List<UsuarioTokens> tokens;
 
     public Usuario(String nome, String email) {
         this.nome = nome;

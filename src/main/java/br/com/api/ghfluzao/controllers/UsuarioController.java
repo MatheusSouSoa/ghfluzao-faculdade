@@ -37,6 +37,14 @@ public class UsuarioController {
         if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario não tem permissão de acesso a essa rota");
         }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.buscarUsuario(email));
+    }
+
+    @GetMapping("/buscar_historico")
+    private ResponseEntity<?> pegarUsuarioshistoricoLoginPorEmail(@RequestParam("email") String email) {
+        if(_jwtService.verificarRole(_jwtService.getUserId(), RolesUsuarios.ADMIN)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario não tem permissão de acesso a essa rota");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(usuarioServiceInterface.pegarUsuarioPorEmail(email));
     }
 

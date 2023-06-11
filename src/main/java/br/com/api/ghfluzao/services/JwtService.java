@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import br.com.api.ghfluzao.enums.RolesUsuarios;
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
+import br.com.api.ghfluzao.interfaces.UsuariosTokensServiceInterface;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,30 +31,44 @@ public class JwtService implements JwtServiceInterface{
 
     @Autowired
     private UsuarioServiceInterface _usuarioServiceInterface;
+
+    @Autowired
+    private UsuariosTokensServiceInterface _tokensService;
     
     public String generateToken(Long codigoUsuario){
 
         var usuario = _usuarioServiceInterface.pegarUsuarioPorId(codigoUsuario);
+        var historico = _tokensService.criarRegistroToken(codigoUsuario);
         
         Claims claims = Jwts.claims();
         claims.put("ROLE", usuario.getRole());
-        
-        return Jwts
-                .builder()
-                .setClaims(claims)
-                .setSubject(codigoUsuario.toString())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(genSignInKey(), SignatureAlgorithm.HS256)
-                .compact();
+        claims.put("TOKEN_ID", historico);
+
+        var token  = Jwts
+                        .builder()
+                        .setClaims(claims)
+                        .setSubject(codigoUsuario.toString())
+                        .setIssuedAt(new Date(System.currentTimeMillis()))
+                        .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                        .signWith(genSignInKey(), SignatureAlgorithm.HS256)
+                        .compact();
+
+        _tokensService.setarToken(codigoUsuario, token);
+                    
+        return token;
     }
 
     public boolean isValidToken(String token, String userId)  {
         
         var sub = getClaims(token, Claims::getSubject);
         var tExpiration = getClaims(token, Claims::getExpiration);
+        var tokenId = getClaim(token, "TOKEN_ID");
 
-        return (sub.equals(userId) && !tExpiration.before(new Date()));
+        if ((sub.equals(userId) && !tExpiration.before(new Date()) && _tokensService.verificarIdToken(Long.parseLong(tokenId)))){
+            return true;
+        }
+        _tokensService.setarTokenFalse(Long.parseLong(userId), token);
+        return false;
     }
 
     private <T> T getClaims(String token, Function<Claims, T> claimsResolver){
@@ -64,6 +79,17 @@ public class JwtService implements JwtServiceInterface{
                         .getBody();
         return claimsResolver.apply(claims);                        
     }
+
+    private String getClaim(String token, String claimName) {
+    Claims claims = Jwts.parserBuilder()
+            .setSigningKey(genSignInKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+
+    Integer claimValue = claims.get(claimName, Integer.class);
+    return claimValue != null ? claimValue.toString() : null;
+}
 
     public boolean verificarRole(String userId, RolesUsuarios rotaRole){
 
