@@ -53,7 +53,7 @@ public class JwtService implements JwtServiceInterface{
                         .signWith(genSignInKey(), SignatureAlgorithm.HS256)
                         .compact();
 
-        _tokensService.setarToken(codigoUsuario, token);
+        _tokensService.setarToken(historico, token);
                     
         return token;
     }
