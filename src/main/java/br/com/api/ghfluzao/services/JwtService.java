@@ -67,7 +67,6 @@ public class JwtService implements JwtServiceInterface{
         if ((sub.equals(userId) && !tExpiration.before(new Date()) && _tokensService.verificarIdToken(Long.parseLong(tokenId)))){
             return true;
         }
-        _tokensService.setarTokenFalse(Long.parseLong(userId), token);
         return false;
     }
 

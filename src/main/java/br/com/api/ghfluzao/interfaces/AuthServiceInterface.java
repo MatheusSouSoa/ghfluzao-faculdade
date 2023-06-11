@@ -2,7 +2,7 @@ package br.com.api.ghfluzao.interfaces;
 
 import org.springframework.http.ResponseEntity;
 
-import br.com.api.ghfluzao.data.dto.Auth.AuthenticateRequest;
+import br.com.api.ghfluzao.data.dto.auth.AuthenticateRequest;
 
 public interface AuthServiceInterface {
     

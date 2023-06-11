@@ -1,4 +1,4 @@
-package br.com.api.ghfluzao.data.dto.Auth;
+package br.com.api.ghfluzao.data.dto.auth;
 
 import lombok.Data;
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.ghfluzao.data.dto.Auth.AuthenticateRequest;
+import br.com.api.ghfluzao.data.dto.auth.AuthenticateRequest;
 import br.com.api.ghfluzao.interfaces.AuthServiceInterface;
 
 @RestController

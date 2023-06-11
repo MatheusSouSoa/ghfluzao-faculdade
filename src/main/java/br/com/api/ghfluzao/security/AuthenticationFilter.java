@@ -11,6 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
+import br.com.api.ghfluzao.services.UsuarioTokensService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,8 @@ public class AuthenticationFilter extends OncePerRequestFilter{
     private JwtServiceInterface _jwtService;
     @Autowired
     private UsuarioServiceInterface _usuarioService;
+    @Autowired
+    private UsuarioTokensService _tokensService;
 
 
     @Override
@@ -56,6 +59,7 @@ public class AuthenticationFilter extends OncePerRequestFilter{
         } catch (Exception e) {
             response.getWriter().write(e.getMessage());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            _tokensService.setarTokenFalse(Long.parseLong(userId), token);
             return;
         }
 

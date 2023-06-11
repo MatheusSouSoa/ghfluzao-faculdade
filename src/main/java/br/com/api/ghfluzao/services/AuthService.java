@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.api.ghfluzao.data.dto.Auth.AuthenticateRequest;
-import br.com.api.ghfluzao.data.dto.Auth.AuthenticateResponse;
+import br.com.api.ghfluzao.data.dto.auth.AuthenticateRequest;
+import br.com.api.ghfluzao.data.dto.auth.AuthenticateResponse;
 import br.com.api.ghfluzao.interfaces.AuthServiceInterface;
 import br.com.api.ghfluzao.interfaces.JwtServiceInterface;
 import br.com.api.ghfluzao.interfaces.UsuarioServiceInterface;
