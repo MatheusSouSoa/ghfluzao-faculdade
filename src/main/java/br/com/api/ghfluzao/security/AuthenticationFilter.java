@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 
-@Component
+
 public class AuthenticationFilter extends OncePerRequestFilter{
 
     @Autowired
@@ -33,51 +33,51 @@ public class AuthenticationFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
        
-        // if(request.getServletPath().contains("/api-v3/auth") || request.getServletPath().contains("/api-v3/usuarios/criar")){
-        //     filterChain.doFilter(request, response);
-        //     return;
-        // }
+        if(request.getServletPath().contains("/api-v3/auth") || request.getServletPath().contains("/api-v3/usuarios/criar")){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-        // if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs")){
-        //     filterChain.doFilter(request, response);
-        //     return;
-        // }
+        if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs")){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-        // var token = request.getHeader("Authorization");
-        // var userId = request.getHeader("RequestedBy");
+        var token = request.getHeader("Authorization");
+        var userId = request.getHeader("RequestedBy");
 
-        // if(token == null || userId == null || !token.startsWith("Bearer ")) {
-        //     response.getWriter().write("Usuario não autorizado!");
-        //     response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        //     return;
-        // }
+        if(token == null || userId == null || !token.startsWith("Bearer ")) {
+            response.getWriter().write("Usuario não autorizado!");
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            return;
+        }
 
-        // boolean isValidToken = false;
+        boolean isValidToken = false;
 
-        // try {
-        //     isValidToken = _jwtService.isValidToken(token.substring(7), userId);
-        // } catch (Exception e) {
-        //     response.getWriter().write(e.getMessage());
-        //     response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        //     _tokensService.setarTokenFalse(Long.parseLong(userId), token);
-        //     return;
-        // }
+        try {
+            isValidToken = _jwtService.isValidToken(token.substring(7), userId);
+        } catch (Exception e) {
+            response.getWriter().write(e.getMessage());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            _tokensService.setarTokenFalse(Long.parseLong(userId), token);
+            return;
+        }
 
-        // if(isValidToken) {
-        //     try {
-        //         var usuario = _usuarioService.pegarUsuarioPorId(Long.parseLong(userId));
+        if(isValidToken) {
+            try {
+                var usuario = _usuarioService.pegarUsuarioPorId(Long.parseLong(userId));
 
-        //         var authentication = new UsernamePasswordAuthenticationToken(usuario, null, null);
-        //         SecurityContextHolder.getContext().setAuthentication(authentication);
-        //     } catch (Exception e) {
-        //         response.getWriter().write(e.getMessage());
-        //         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        //     }
-        // } else {
-        //     response.getWriter().write("token invalido.");
-        //     response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        //     return;
-        // }
+                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, null);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception e) {
+                response.getWriter().write(e.getMessage());
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            }
+        } else {
+            response.getWriter().write("token invalido.");
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            return;
+        }
         filterChain.doFilter(request, response);
 
     }
