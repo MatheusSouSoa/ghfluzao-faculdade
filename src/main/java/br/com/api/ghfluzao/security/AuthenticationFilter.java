@@ -38,7 +38,7 @@ public class AuthenticationFilter extends OncePerRequestFilter{
             return;
         }
 
-        if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs") || request.getServletPath().contains("https://ghfluzao-faculdade-production.up.railway.app/")){
+        if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs") || request.getServletPath().contains("")){
             filterChain.doFilter(request, response);
             return;
         }
