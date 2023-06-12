@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.ghfluzao.data.dto.opçao.CreateOpcaoRequest;
+import br.com.api.ghfluzao.data.dto.opcao.CreateOpcaoRequest;
 import br.com.api.ghfluzao.interfaces.OpcaoServiceInterface;
 import br.com.api.ghfluzao.models.Opcao;
 @RestController
