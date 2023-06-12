@@ -24,9 +24,9 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService implements JwtServiceInterface{
 
-    @Value("${JWT.EXPIRATION}")
+    @Value("${JWT_EXPIRATION}")
     private long EXPIRATION_TIME;
-    @Value("${JWT.SECRET}")// SE N FOR, VOLTAR PARA FINAL E TRAZER A KEY DO APP.PROPERTIES
+    @Value("${JWT_SECRET}")// SE N FOR, VOLTAR PARA FINAL E TRAZER A KEY DO APP.PROPERTIES
     private String KEY;
 
     @Autowired
