@@ -32,13 +32,15 @@ public class AuthenticationFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        
+        filterChain.doFilter(request, response);
        
         if(request.getServletPath().contains("/api-v3/auth") || request.getServletPath().contains("/api-v3/usuarios/criar")){
             filterChain.doFilter(request, response);
             return;
         }
 
-        if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs") || request.getServletPath().contains("admin")){
+        if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs")){
             filterChain.doFilter(request, response);
             return;
         }
