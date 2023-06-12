@@ -33,7 +33,7 @@ public class AuthenticationFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
        
-        if(request.getServletPath().contains("/api-v3/auth") || request.getServletPath().contains("/api-v3/usuarios/criar") || request.getServletPath().contains("/api-v3/usuarios/criar")){
+        if(request.getServletPath().contains("/api-v3/auth") || request.getServletPath().contains("/api-v3/usuarios/criar") || request.getServletPath().contains("/api-v3/usuarios/buscar") || request.getServletPath().contains("api-v3")){
             filterChain.doFilter(request, response);
             return;
         }
