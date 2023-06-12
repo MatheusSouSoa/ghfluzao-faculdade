@@ -38,7 +38,12 @@ public class AuthenticationFilter extends OncePerRequestFilter{
             return;
         }
 
-        if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs") || request.getServletPath().contains("admin")){
+        if(request.getServletPath().contains("swagger") || request.getServletPath().contains("docs")){
+            filterChain.doFilter(request, response);
+            return;
+        }
+        else if (request.getHeader("X-Forwarded-Host") != null && request.getHeader("X-Forwarded-Host").endsWith(".railway.app")) {
+            // Permitir acesso sem autenticação para solicitações do Railway
             filterChain.doFilter(request, response);
             return;
         }
