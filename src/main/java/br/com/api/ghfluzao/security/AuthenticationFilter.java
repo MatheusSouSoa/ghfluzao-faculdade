@@ -1,4 +1,4 @@
-// package br.com.api.ghfluzao.security;
+package br.com.api.ghfluzao.security;
 
 // import java.io.IOException;
 
@@ -19,7 +19,8 @@
 
 
 // @Component
-// public class AuthenticationFilter extends OncePerRequestFilter{
+public class AuthenticationFilter {
+// extends OncePerRequestFilter{
 
     // @Autowired
     // private JwtServiceInterface _jwtService;
