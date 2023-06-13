@@ -43,8 +43,12 @@ public class UsuarioTokensService implements UsuariosTokensServiceInterface{
 
     public boolean verificarIdToken(Long codigotToken){
         try {
-            if(_tokensRepository.findById(codigotToken) != null){
-                return true;
+            var token = _tokensRepository.findById(codigotToken).get();
+            if(token != null){
+                if(token.isValid()){
+                    return true;
+                }
+                return false;
             }
             return false;
         } catch (Exception e) {
