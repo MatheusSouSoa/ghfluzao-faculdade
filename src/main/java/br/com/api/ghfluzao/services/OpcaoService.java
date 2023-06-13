@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.api.ghfluzao.data.dto.opçao.CreateOpcaoRequest;
-import br.com.api.ghfluzao.data.dto.opçao.SearchOpcaoResponse;
+import br.com.api.ghfluzao.data.dto.opcao.CreateOpcaoRequest;
+import br.com.api.ghfluzao.data.dto.opcao.SearchOpcaoResponse;
 import br.com.api.ghfluzao.data.repositories.OpcaoRepository;
 import br.com.api.ghfluzao.interfaces.OpcaoServiceInterface;
 import br.com.api.ghfluzao.interfaces.QuestaoServiceInterface;
