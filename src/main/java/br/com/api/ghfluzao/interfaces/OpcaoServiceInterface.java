@@ -2,7 +2,7 @@ package br.com.api.ghfluzao.interfaces;
 
 import org.springframework.http.ResponseEntity;
 
-import br.com.api.ghfluzao.data.dto.opcao.CreateOpcaoRequest;
+import br.com.api.ghfluzao.data.dto.opçao.CreateOpcaoRequest;
 import br.com.api.ghfluzao.models.Opcao;
 
 public interface OpcaoServiceInterface {

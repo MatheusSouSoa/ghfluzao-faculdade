@@ -1,4 +1,4 @@
-package br.com.api.ghfluzao.data.dto.opcao;
+package br.com.api.ghfluzao.data.dto.opçao;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
