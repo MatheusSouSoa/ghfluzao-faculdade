@@ -41,6 +41,7 @@ public class AuthService implements AuthServiceInterface {
 
         var token = _jwtService.generateToken(usuario.getId());
 
+        response.setNome(usuario.getNome());
         response.setCodigo(usuario.getId());
         response.setToken(token);
         response.setRole(usuario.getRole());

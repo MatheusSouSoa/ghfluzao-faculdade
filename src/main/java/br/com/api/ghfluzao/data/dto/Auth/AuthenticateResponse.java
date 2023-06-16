@@ -7,6 +7,7 @@ import lombok.Data;
 public class AuthenticateResponse {
     
     public Long codigo;
+    public String nome;
     public String token;
     public RolesUsuarios role;
 
