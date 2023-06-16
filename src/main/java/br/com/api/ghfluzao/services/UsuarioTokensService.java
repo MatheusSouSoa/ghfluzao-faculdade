@@ -30,16 +30,6 @@ public class UsuarioTokensService implements UsuariosTokensServiceInterface{
         }
     }
 
-    public UsuarioTokens setarTokenFalse(Long codigo, String token) throws Exception{
-        try {
-            var historico = _tokensRepository.findByToken(token).get(0); //find by id
-            historico.setValid(false);
-            _tokensRepository.save(historico);
-            return historico;
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
 
     public boolean verificarIdToken(Long codigoToken) throws Exception{
         try {
