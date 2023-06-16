@@ -17,7 +17,7 @@ import br.com.api.ghfluzao.interfaces.UsuariosTokensServiceInterface;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api-v3/auth/login")
+@RequestMapping("/api-v3/auth")
 public class AuthController {
 
     @Autowired
@@ -29,12 +29,12 @@ public class AuthController {
     @Autowired
     private JwtServiceInterface _jwtService;
     
-    @PostMapping("")
+    @PostMapping("/login")
     public ResponseEntity<?> Authenticate(@RequestBody AuthenticateRequest request){
         return _authService.authenticate(request);
     }
 
-    @PutMapping("logout")
+    @PutMapping("/logout")
     public ResponseEntity<?> Logout(@RequestParam ("logoutToken") String token) throws NumberFormatException, Exception{
         return ResponseEntity.ok().body(_tokensService.setarTokenFalse(Long.parseLong(_jwtService.getUserId()), _jwtService.getToken()));
     }
