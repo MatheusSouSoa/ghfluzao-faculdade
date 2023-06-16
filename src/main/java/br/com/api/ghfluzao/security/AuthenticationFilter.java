@@ -60,7 +60,7 @@ public class AuthenticationFilter extends OncePerRequestFilter{
             response.getWriter().write(e.getMessage());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             try {
-                _tokensService.setarTokenFalse(Long.parseLong(userId), token);
+                _tokensService.setarTokenFalse(Long.parseLong(userId), token);//try catch novo
             } catch (Exception e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
