@@ -32,17 +32,18 @@ public class AuthService implements AuthServiceInterface {
         var response = new AuthenticateResponse();
 
         if (usuario == null) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario invalido.");
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario invalido \n" + response);
         }
 
         if(!_passwordEncoder.matches(request.password, usuario.getSenha())){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha incorreta.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha incorreta." + response);
         }
 
         var token = _jwtService.generateToken(usuario.getId());
 
         response.setCodigo(usuario.getId());
         response.setToken(token);
+        response.setRole(usuario.getRole());
 
         return  ResponseEntity.status(HttpStatus.OK).body(response);
     }

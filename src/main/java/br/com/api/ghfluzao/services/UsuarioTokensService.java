@@ -32,7 +32,7 @@ public class UsuarioTokensService implements UsuariosTokensServiceInterface{
 
     public UsuarioTokens setarTokenFalse(Long codigo, String token){
         try {
-            var historico = _tokensRepository.findById(codigo).get();
+            var historico = _tokensRepository.findByToken(token).get(0); //find by id
             historico.setValid(false);
             _tokensRepository.save(historico);
             return historico;
@@ -41,9 +41,9 @@ public class UsuarioTokensService implements UsuariosTokensServiceInterface{
         }
     }
 
-    public boolean verificarIdToken(Long codigotToken){
+    public boolean verificarIdToken(Long codigoToken) throws Exception{
         try {
-            var token = _tokensRepository.findById(codigotToken).get();
+            var token = _tokensRepository.findById(codigoToken).get();
             if(token != null){
                 if(token.isValid()){
                     return true;
@@ -52,7 +52,7 @@ public class UsuarioTokensService implements UsuariosTokensServiceInterface{
             }
             return false;
         } catch (Exception e) {
-            return false;
+            throw new Exception(e.getMessage());
         }
     }
 

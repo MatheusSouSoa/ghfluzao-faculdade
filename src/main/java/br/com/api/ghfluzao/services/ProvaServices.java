@@ -44,7 +44,7 @@ public class ProvaServices implements ProvaServiceInterface {
         prova.setSituacao(ProvaStatus.ANALISE);
         _provaRepository.save(prova);
 
-         FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+        FindProvaResponse provaResponse = new FindProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
 
         return new ResponseEntity<>(provaResponse, HttpStatus.CREATED);
     }

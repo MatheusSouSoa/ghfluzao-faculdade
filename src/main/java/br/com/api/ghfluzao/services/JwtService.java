@@ -58,7 +58,7 @@ public class JwtService implements JwtServiceInterface{
         return token;
     }
 
-    public boolean isValidToken(String token, String userId)  {
+    public boolean isValidToken(String token, String userId) throws NumberFormatException, Exception  {
         
         var sub = getClaims(token, Claims::getSubject);
         var tExpiration = getClaims(token, Claims::getExpiration);
