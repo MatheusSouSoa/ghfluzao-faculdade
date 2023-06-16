@@ -35,7 +35,7 @@ public class AuthController {
     }
 
     @PutMapping("logout")
-    public ResponseEntity<?> Logout(@RequestParam ("logoutToken") String token){
+    public ResponseEntity<?> Logout(@RequestParam ("logoutToken") String token) throws NumberFormatException, Exception{
         return ResponseEntity.ok().body(_tokensService.setarTokenFalse(Long.parseLong(_jwtService.getUserId()), _jwtService.getToken()));
     }
 }
