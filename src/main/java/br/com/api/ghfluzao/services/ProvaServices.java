@@ -40,10 +40,13 @@ public class ProvaServices implements ProvaServiceInterface {
         if(prova.getAno().equals(null) || prova.getAno().equals(0)){
             return new ResponseEntity<>("Ano invalido", HttpStatus.BAD_REQUEST);
         }
-
+        
         prova.setSituacao(ProvaStatus.ANALISE);
+        _provaRepository.save(prova);
 
-        return new ResponseEntity<>(_provaRepository.save(prova), HttpStatus.CREATED);
+         SearchProvaResponse provaResponse = new SearchProvaResponse(prova.getCodigo(), prova.getAno(), prova.getData_criacao(), prova.getData_aplicacao(), prova.getSituacao(), prova.getCodigo_curso());
+
+        return new ResponseEntity<>(provaResponse, HttpStatus.CREATED);
     }
 
     public ResponseEntity<SearchProvaResponse> aprovarProva(Long codigoProva){

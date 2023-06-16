@@ -30,11 +30,11 @@ public class ProvaController {
     private ProvaServiceInterface  _provaService;
 
     @PostMapping("")
-    public ResponseEntity<String> criarProva(@RequestBody CreateProvaRequest request){
+    public ResponseEntity<?> criarProva(@RequestBody CreateProvaRequest request){
 
-        _provaService.criarProva(request);
+        var prova =_provaService.criarProva(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Prova criada com sucesso");
+        return ResponseEntity.status(HttpStatus.CREATED).body(prova);
     }
 
     @GetMapping("")
