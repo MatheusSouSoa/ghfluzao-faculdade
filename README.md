@@ -5,5 +5,4 @@ jwt autentificação gerando e validando token manualmente criptografar e descri
 Sistema de roles de usuarios para acessar rotas especificas por meio de herança validando manualmente
 
 https://ghfluzao-faculdade-production.up.railway.app/swagger-ui/index.html#/
-
 https://e-nade.vercel.app/
